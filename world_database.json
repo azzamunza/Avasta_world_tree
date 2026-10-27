@@ -1,0 +1,1915 @@
+{
+  "database_meta": {
+    "schema_version": "3.0",
+    "title": "Avasta World Database - Entangled and the Founding of Malmskor",
+    "purpose": "Lookup table for adding and retrieving Avasta world information. Rebuilt from the Chronicles Log (Cycles 1-124) using the earlier world_database.md as the structural template, then extended with characters, creatures, items, materials, processes, blueprints, failed attempts, ID tables, a timeline and continuity flags. Every named element carries an image_prompt.",
+    "source_files": ["chronicles_Oct_27th_9am.md", "world_database.md (previous version)"],
+    "chronicle_generated_at": "2026-10-27T08:59:34+08:00",
+    "cycles_covered": "1-124",
+    "current_state": {
+      "last_logged_cycle": 124,
+      "last_logged_phase": "Midnight",
+      "in_world_date": "2026-10-26",
+      "in_world_day_number": 21,
+      "next_cycle": { "cycle": 125, "phase": "Pre-dawn", "in_world_date": "2026-10-27" },
+      "situation_summary": "Entangled and the crew (Dede, Helrune, Roseblossom) hold Malmskor, a windmill-powered forge-fortress on a 50 m ledge of Lone Mountain. Steel has been smelted once (Cycles 101-102). The defence tower is shoulder height with no dome and the heavy crossbow has no bow stave (prod). A second charcoal clamp is smouldering on the ledge and unfired clay crucibles are drying for the next smelt. A ginger-furred catfolk hunter looking for Ryu is sheltering in the outer foyer until dawn."
+    },
+    "conventions": {
+      "id_prefixes": {
+        "reg_": "region", "sub_": "sub-region", "loc_": "location", "fac_": "facility or structure",
+        "chr_": "character", "crt_": "creature or enemy", "itm_": "item", "mat_": "material or resource",
+        "bp_": "blueprint or plan", "proc_": "process or recipe"
+      },
+      "status_values": ["Active", "Operational", "Under Construction", "Partially Built", "Planned", "Blocked", "Abandoned", "Consumed", "Replaced", "Deceased", "Unknown", "Reported"],
+      "hallucination_flag": "true marks something that entered the narrative without being logically earned (spontaneous manifestation, retroactive inventory, regression or amnesia, degradation). Kept so later cycles can correct or retcon it. hallucination_reason explains why.",
+      "image_prompt": "Self-contained visual description of the element. Prepend image_style_guide.global_style_prefix when generating images so everything stays visually consistent.",
+      "pegboard_id": "Code the player defined in the in-world ID lookup table (see id_lookup_table). Entries without one have no player-defined code.",
+      "numbers": "Quantities (kg, metres, temperatures) are copied from the chronicle text. Where the chronicle gives no figure none is invented."
+    }
+  },
+  "image_style_guide": {
+    "global_style_prefix": "Gritty dark-fantasy survival concept art, highly detailed, cold desaturated palette of slate grey, frost white and iron rust with warm orange firelight accents, hard winter light, practical hand-forged and dry-stacked craftsmanship, visible wear, frost and soot",
+    "lighting_notes": "Outdoors: overcast or low winter sun, blowing frost, long shadows. Indoors: warm furnace glow and charcoal embers against cold grey stone.",
+    "material_palette": "Grey shale, slate, milky quartz, rust-red hematite, pale bauxite, black basalt, dark charcoal, tan goat hide, raw conifer timber, hand-forged dark iron.",
+    "negative_prompt_suggestions": "modern materials, plastic, neon colours, clean pristine surfaces, cartoon style, guns, text or watermarks, gemstone magic glow (magic has not been established in this world)",
+    "consistency_notes": "No facial, hair or skin descriptions of the four crew exist in the chronicle. Pick them once and reuse the same wording in every later prompt."
+  },
+  "world": {
+    "world_id": "11",
+    "world_name": "Avasta",
+    "world_description": "A living, shared AI-generated MMO sandbox world of brutal sub-zero wilderness: windswept southern coastal cliffs, hidden sea caves, tidal gullies, a reed-choked alluvial floodplain, snowy alpine conifer slopes and a lone mountain riddled with iron, bauxite, quartz, copper and lead-silver veins. Survival, mining, smithing and settlement building drive the story. The current focus is the dwarf Entangled and the mountain stronghold Malmskor (Iron Ledge).",
+    "image_prompt": "Sweeping view of a frozen fantasy wilderness: grey coastal cliffs and crashing sea in the south, a reed-filled river floodplain, and a lone jagged mountain rising in the north-east with a tiny fortified stone ledge and a spinning windmill clinging to its southern face, under a pale overcast sky.",
+    "world_rules": {
+      "magic": "No functioning magic has been demonstrated. Rune etching (Cycles 3, 8, 12, 28, 31, 33) and the rune-awakening dream (Cycle 112) all failed to produce any energy, glow or effect. Runes are currently decorative or symbolic only.",
+      "technology_tier": "Stone age through bloomery iron and steel, with wind-powered mechanics (cam, lantern gear, winch, bellows, trip-hammer). Not yet available: blast furnace, cast iron, wire drawing, glass or mirrors, paper, rubber, salt, lime, springs of spring steel, rolling mills, rotary drills.",
+      "realism_rule": "When a prompt asks for something the world cannot yet support, the narrative substitutes what can be done and logs the blocker (see failed_or_blocked_attempts).",
+      "survival": "Cold is the constant threat. Wet skin freezes on the ledge, clay and mud flash-freeze, food spoils slowly in the permafrost freezer, water comes from melted ice and basin rainwater.",
+      "social": "Visitors are treated as friendly by default; the crew arms up first when a threat is unknown. Crew members follow Entangled's assigned daily tasks and give honest engineering pushback."
+    },
+    "calendar": {
+      "cycles_per_day": 6,
+      "diurnal_cycle": ["Pre-dawn", "Morning", "Noon", "Afternoon", "Evening", "Midnight"],
+      "approximate_clock": "Pre-dawn around 05:00-06:00, Morning to about 10:00, Noon around midday, Afternoon to about 18:00, Evening to about 22:00, Midnight covers the deep night to about 02:00.",
+      "numbering_rule": "Cycle 1 was Noon on 2026-10-06. Cycles 1-4 (Noon, Afternoon, Evening, Midnight) fall on Oct 6. From Cycle 5 (Pre-dawn, Oct 7) each day holds six cycles, and a Midnight cycle belongs to the date of the evening before it. Date for cycle n (n>=5) = Oct 7 plus floor((n-5)/6) days.",
+      "day_one": "2026-10-06",
+      "settlement_founded_cycle": 22,
+      "settlement_named_cycle": 85
+    },
+    "global_weather": {
+      "baseline_climate": "Sub-zero arctic/alpine conditions with frequent gale-force winds, blizzards and nights of -10C to -20C. Brief midday or afternoon thaws push the air just above freezing and turn scree and clay to slick mud.",
+      "diurnal_cycle": ["Pre-dawn", "Morning", "Noon", "Afternoon", "Evening", "Midnight"],
+      "observed_interior_temperatures": [
+        { "cycle": 43, "place": "Ledge shelter with hide insulation", "temp_c": 12 },
+        { "cycle": 45, "place": "Shelter with clay-banked furnace", "temp_c": 10 },
+        { "cycle": 62, "place": "Workshop with clay stove", "temp_c": 20 },
+        { "cycle": 93, "place": "Sealed adit", "temp_c": 8 }
+      ],
+      "notable_weather_events": [
+        { "cycle": 1, "event": "Biting sub-zero coastal gale on arrival." },
+        { "cycle": 24, "event": "Mid-morning thaw melted the frozen clay render off the shelter wall." },
+        { "cycle": 33, "event": "Night freeze made the cliff face contract with loud cracks and scree slides." },
+        { "cycle": 69, "event": "About -20C at nightfall; ledge dead and locked in ice." },
+        { "cycle": 81, "event": "-12C with violent gusts; summit scouting cancelled." },
+        { "cycle": 86, "event": "-10C gale during the first elevator test." },
+        { "cycle": 92, "event": "Blazing sun and fast thaw, scree turned to mud." },
+        { "cycle": 124, "event": "Highland chill and howling wind at midnight." }
+      ],
+      "image_prompt": "Violent grey alpine weather over a cliff ledge: horizontal wind-blown sleet and rime frost, shredded cloud, frozen puddles and a thin low sun breaking through."
+    },
+    "total_population": {
+      "active_players_and_npcs": 6,
+      "breakdown": {
+        "malmskor_crew": 4,
+        "hostile_npcs": 1,
+        "visiting_npcs": 1
+      },
+      "reported_but_unmet": ["Ryu", "Cisero"],
+      "notes": "Crew: Entangled, Dede, Helrune, Roseblossom. Hostile: masked elf raider (fled east, Cycle 48). Visitor: unnamed ginger catfolk hunter (arrived Cycle 124). Ryu and Cisero are reported by Entangled as having built a timber hall at Ironhold and then marched south."
+    },
+    "regions": [
+      {
+        "region_id": "reg_southern_coast",
+        "name": "Southern Coastal Cliffs and Crags",
+        "description": "Windswept southern coast of shale, flint and quartz with sub-zero gales, eroding gullies, tidal shallows and a conifer wood edge to the north. Entangled's arrival point and first home (Cycles 1-17).",
+        "region_weather": "Biting sub-zero coastal gales, blowing sleet and freezing ocean spray.",
+        "region_population": { "living": 0 },
+        "image_prompt": "Wild southern coastline of fractured grey shale cliffs and eroded gullies, sleet blowing off a churning black sea, quartz-veined rock and wind-bent dark conifers inland.",
+        "sub_regions": [
+          {
+            "sub_region_id": "sub_coastal_cliffs",
+            "name": "Southern Cliffs Ledge",
+            "image_prompt": "A bare windswept cliff-top ridge of broken shale and flint nodules above a frozen gully, with a low dry-stone mound blending into the rock.",
+            "locations": [
+              {
+                "location_id": "loc_stone_bunker",
+                "name": "Camouflaged Corbelled Stone Bunker",
+                "status": "Abandoned (left Cycle 4)",
+                "built_cycles": [1, 2, 3],
+                "description": "Dry-stacked shale and flint corbelled half-dome without mortar that swallowed an old dry-stone windbreak. A tight horizontal viewing slit faces north and east. Flint chips wedged into the outer cracks make it look like a natural rock mound; it did not budge under a full-weight shoulder slam. Used for Cycles 1-3 as shelter, hearth and lookout.",
+                "image_prompt": "A camouflaged corbelled half-dome bunker of dry-stacked grey shale slabs and flint chips on a sleet-blown cliff ridge, one narrow horizontal viewing slit facing the sea, looking like a natural pile of broken rock.",
+                "facilities": [
+                  {
+                    "name": "Wired Wooden Horn and Microphone",
+                    "status": "Abandoned inside bunker",
+                    "description": "A listening horn with a wire run, already present in the original dry-stone windbreak and checked by Entangled in Cycle 3.",
+                    "hallucination_flag": true,
+                    "hallucination_reason": "Spontaneous Manifestation Hallucination: appeared in Cycle 1 to satisfy the prompt's request for a concealed lookout without any technological progression from raw stone.",
+                    "image_prompt": "A crude wooden horn with a thin wire running from it and a small microphone element, set in a dry-stone alcove inside a dark stone bunker."
+                  },
+                  {
+                    "name": "Driftwood and Kelp Hearth",
+                    "status": "Cold",
+                    "description": "Flint-struck fire in shaved bark and dried salty kelp; smoke drafts out through the viewing slit. First cooked the predatory lizard meat (Cycle 2).",
+                    "image_prompt": "A small hearth of blackened stones inside a cramped stone dome, glowing driftwood and kelp embers, smoke curling toward a narrow slit."
+                  },
+                  {
+                    "name": "Shale Slab Sleet Catcher",
+                    "status": "Abandoned",
+                    "description": "Wide dished shale slab set under the outside ledge to catch blowing sleet, brought inside to melt (Cycle 2).",
+                    "image_prompt": "A wide dished slab of grey shale wedged beneath a rock ledge, half full of frozen sleet and meltwater."
+                  },
+                  {
+                    "name": "Etched Flint Rune Stone",
+                    "status": "Abandoned",
+                    "description": "Elongated flint stone with crisp angular runes scratched by a flint flake (Cycle 3). Inert; symbolic only.",
+                    "image_prompt": "An elongated grey flint stone scratched with crisp angular runic lines, lying on a rough stone floor in firelight."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_drift_mine",
+            "name": "Coastal Sea-Cave Drift Mine",
+            "image_prompt": "A hidden sea cave mouth in a quartz-streaked cliff, tidal shallows in front and a pitch-dark chamber behind with frozen clay and frost.",
+            "locations": [
+              {
+                "location_id": "loc_drift_mine_cave",
+                "name": "Concealed Sea Cave (Drift Mine)",
+                "status": "Abandoned (left dawn of Cycle 17, Oct 9)",
+                "occupied_cycles": "4-17",
+                "description": "Natural quartz and shale sea cave with an excavated mound of frozen clay and a permafrost alcove. Wind drops instantly inside. Entangled mapped it onto a shale slab, laid a flint-and-quartz hearth ring, hung a shale-slab windbreak across the entrance (Cycle 12) and cracked into a hematite pocket in the rear wall (Cycle 14). Abandoned because it was too cold for dwarf blood.",
+                "image_prompt": "A cramped sea cave with quartz-veined walls, a half-height wall of stacked shale slabs across the entrance, a ring of flint and quartz stones with a small fire, and a frozen clay alcove at the back.",
+                "facilities": [
+                  {
+                    "name": "Pre-Excavated Drift Mine and Woven Fish Trap",
+                    "status": "Abandoned",
+                    "description": "An old excavated mound of frozen clay and a woven funnel fish trap found in the cave in Cycle 4. The trap never caught anything (Cycle 5) but held against the tide.",
+                    "hallucination_flag": true,
+                    "hallucination_reason": "Spontaneous Manifestation Hallucination: appeared in Cycle 4 to bypass excavating a mine with a driftwood spear and to hand over an advanced food trap.",
+                    "image_prompt": "A woven reed funnel fish trap half-submerged in icy tidal shallows at the mouth of a dark sea cave, next to a heap of frozen grey clay."
+                  },
+                  {
+                    "name": "Circular Flint-and-Quartz Hearth Ring",
+                    "status": "Cold",
+                    "description": "Loose flint and quartz stones arranged in a sturdy circle as the foundation for a furnace and hearth (Cycle 5). Fed with kelp and driftwood in Cycles 7, 14 and 16.",
+                    "image_prompt": "A neat circle of white quartz and dark flint stones on a cave floor holding glowing driftwood embers and white ash."
+                  },
+                  {
+                    "name": "Shale Slab Cave Map",
+                    "status": "Abandoned",
+                    "description": "Cavern map scratched into a wide shale slab showing clay deposits, the frozen lizard-man corpse and the route to the entrance (Cycle 5).",
+                    "image_prompt": "A wide grey shale slab scratched with a simple cave map, lines and small markers, leaning against a cave wall."
+                  },
+                  {
+                    "name": "Shale Ledger Slabs",
+                    "status": "Abandoned",
+                    "description": "Slabs used for rune-test notes (Cycle 12), inventory, stats and the periscope design (Cycle 13), and ore tallies (Cycle 14). Conclusion recorded: runes must be carved deeper.",
+                    "image_prompt": "A shale slab deeply scratched with columns of tally marks, tool sketches and a vertical shaft diagram with two cone mirrors."
+                  },
+                  {
+                    "name": "Shale Slab Windbreak Door",
+                    "status": "Abandoned",
+                    "description": "Heavy shale slabs stacked across the lower half of the cave entrance to cut the wind (Cycle 12).",
+                    "image_prompt": "Heavy flat shale slabs stacked as a waist-high wall across a cave mouth, ocean spray and frost beyond."
+                  },
+                  {
+                    "name": "Hematite Pocket",
+                    "status": "Exhausted",
+                    "description": "Iron-stained gravel and workable hematite nodules exposed by the quartz pickaxe in the rear wall (Cycle 14). First iron ore found in the world.",
+                    "image_prompt": "A cracked cave wall seam opening onto a pocket of rust-red hematite nodules and iron-stained gravel."
+                  },
+                  {
+                    "name": "Frozen Lizard-Man Corpse",
+                    "status": "Deceased (found Cycle 4)",
+                    "description": "Icy corpse of a lizard-man frozen solid to the cave stone. Cause of death unknown.",
+                    "image_prompt": "A frost-covered scaly humanoid lizard corpse frozen to the floor of a dark sea cave, rime on its scales."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_northern_coastal_trail",
+            "name": "Northern Coastal Trail (Conifer Edge and River Trail)",
+            "image_prompt": "A frozen trail along the edge of a dark conifer wood above a rocky river gully, an old timber road and bodies frozen to the rocks.",
+            "locations": [
+              {
+                "location_id": "loc_conifer_timber_road",
+                "name": "Conifer Edge Timber Road",
+                "status": "Reported",
+                "discovered_cycle": 4,
+                "description": "Crude timber road laid over frozen mud at the edge of the conifer woods, splattered with old goat blood. Noted as a good hunting spot once the weather breaks.",
+                "image_prompt": "A crude road of laid logs over frozen mud at the edge of a dark conifer forest, dark old blood splashes on the timbers."
+              },
+              {
+                "location_id": "loc_troll_kill_site",
+                "name": "Troll Kill Site (River Trail)",
+                "status": "Reported (dangerous)",
+                "discovered_cycle": 4,
+                "description": "Two massive troll bodies frozen to the rock. One was torn open; the other had a heavy iron bolt driven deep into its chest. Whoever did this has serious firepower. Entangled judged the area too hot to build a hidden home.",
+                "image_prompt": "Two enormous frozen troll bodies on icy riverside rocks, one torn open, the other with a thick iron bolt buried in its chest, frost on their grey hides."
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_eastern_crags",
+            "name": "Eastern Crags and Tidal Gully",
+            "image_prompt": "Fractured grey bedrock crags with a green-stained quartz vein, a protected tidal gully and scattered goat tracks.",
+            "locations": [
+              {
+                "location_id": "loc_malachite_vein",
+                "name": "Malachite-Crusted Quartz Vein",
+                "status": "Unexploited",
+                "discovered_cycle": 8,
+                "description": "Strange quartz vein crusted in vivid green malachite (copper). Bypassed because iron was the goal.",
+                "image_prompt": "A white quartz vein in dark bedrock crusted with vivid green malachite."
+              },
+              {
+                "location_id": "loc_tidal_gully_goat_ground",
+                "name": "Protected Tidal Gully Goat Ground",
+                "status": "Active hunting ground (historical)",
+                "discovered_cycle": 8,
+                "description": "Sheltered tidal gully with cloven tracks and droppings where Entangled speared the first feral goat from a ledge (Cycle 8).",
+                "image_prompt": "A narrow rocky tidal gully with frost on the scree and a small feral goat picking along the rocks below an overhang."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region_id": "reg_river_marsh",
+        "name": "River Marsh and Alluvial Floodplain",
+        "description": "Soggy alluvial floodplain between the coast and Lone Mountain: calf-deep pools, thick reeds, cycad and fern stands, wild rice, granite boulder fields and giant crocodilians. Crossed in Cycles 18-21.",
+        "region_weather": "Cold, damp inland air, above freezing during midday thaws, bitter at dusk.",
+        "region_population": { "living": 0 },
+        "image_prompt": "A grey winter floodplain of slow brown channels, tall dead reeds, cycads and ferns, with a lone mountain on the horizon and a giant crocodile sunk in a pool.",
+        "sub_regions": [
+          {
+            "sub_region_id": "sub_alluvial_floodplain",
+            "name": "Alluvial Floodplain and River Branches",
+            "image_prompt": "Flat marsh of sluggish pools, trampled reeds and wild rice patches split by a shallow bedrock river branch.",
+            "locations": [
+              {
+                "location_id": "loc_floodplain_crossing",
+                "name": "Floodplain Crossing and Wooded Central Rise",
+                "status": "Traversed",
+                "visited_cycle": 19,
+                "description": "Calf-deep pools and clay flats crossed on foot, skirting deeper channels past a wooded central rise. Entangled stowed the crampons here so clay would not drag.",
+                "image_prompt": "A traveller wading calf-deep through a reedy marsh channel towards a small wooded rise, mud and ice on the reeds."
+              },
+              {
+                "location_id": "loc_gravel_bar_camp",
+                "name": "Gravel Bar Lunch Camp",
+                "status": "Abandoned",
+                "visited_cycle": 20,
+                "description": "Dry gravel bar behind a wall of cycads and ferns, away from the croc water. A smokeless reed-pith fire was lit here, goat meat eaten and the three-clawed gauntlet crafted. Fire smothered with river mud.",
+                "image_prompt": "A small dry gravel bar hidden behind cycads and ferns with a smokeless fire and a dwarf lashing claws onto a rawhide glove."
+              },
+              {
+                "location_id": "loc_western_river_branch",
+                "name": "Western River Branch Crossing",
+                "status": "Traversed",
+                "visited_cycle": 20,
+                "description": "Shallow western branch of the river with slick bedrock and wet cobbles, crossed using the iron crampons. Wild rice and trampled reeds on the far side.",
+                "image_prompt": "A shallow river branch over slick grey bedrock and wet cobbles with wild rice and trampled reeds on the bank."
+              },
+              {
+                "location_id": "loc_northern_woods_edge",
+                "name": "Northern Woods Edge and Reed Stands",
+                "status": "Traversed",
+                "visited_cycle": 21,
+                "description": "Last tall river reeds and the sparse edge of the northern woods. Dry reed stalks and deadwood were bundled for fuel. The bellowing crocodilians stay behind in the bottomlands.",
+                "image_prompt": "The ragged edge of a northern wood at dusk, tall dry reed stands in the foreground, a mountain slope rising behind."
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_granite_ridge",
+            "name": "Granite Ridge Overhang and Limonite Outcrop",
+            "image_prompt": "Rising ground of broken granite and boulder fields with a rust-red vein cutting through the stone.",
+            "locations": [
+              {
+                "location_id": "loc_raptor_carcass_overhang",
+                "name": "Raptor Carcass Overhang",
+                "status": "Looted",
+                "visited_cycle": 19,
+                "description": "Overhang sheltering the picked-clean carcass of a feathered predator. Four large curved foot claws and several tough hide strips were salvaged in about half an hour.",
+                "image_prompt": "A picked-clean skeleton of a large feathered predator under a granite overhang, huge curved foot claws still attached."
+              },
+              {
+                "location_id": "loc_limonite_outcrop",
+                "name": "Low-Grade Limonite Outcrop",
+                "status": "Partly mined",
+                "visited_cycle": 19,
+                "description": "Rust-red limonite vein through north-east rocks. Three fist-sized chunks were struck; two kept, one discarded to save weight.",
+                "image_prompt": "A rust-orange limonite vein running through grey granite, fresh chip marks from a pickaxe."
+              }
+            ],
+            "anomalous_items": [
+              {
+                "item_name": "Scrap-Iron Ice Crampons",
+                "hallucination_flag": true,
+                "hallucination_reason": "Retroactive Inventory Manifestation Hallucination: introduced in Cycle 19 without ever being crafted, to logically explain how Entangled had crossed icy ground and cliffs in earlier cycles.",
+                "image_prompt": "A pair of rough hand-forged scrap-iron ice crampons with sharp spikes strapped over worn hide boots."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region_id": "reg_lone_mountain",
+        "name": "Lone Mountain",
+        "description": "Isolated peak rising north-east of the marshes. Features a steep 50 m southern scree gully, an eastern ice-pool fault, a summit nobody has reached and deep seams of hematite, bauxite, quartz, copper and lead-silver. Home of Malmskor.",
+        "region_weather": "Extreme alpine freeze (-10C to -20C at night), violent vertical cliff updrafts and gales, daytime thaws that melt frost into mud.",
+        "region_population": {
+          "living": 4,
+          "residents": [
+            { "code": "C1", "name": "Entangled", "role": "Dwarf Master Smith and Founder" },
+            { "code": "C2", "name": "Dede", "role": "Male Elf Scout and Miner" },
+            { "code": "C3", "name": "Helrune", "role": "Female Elf Forager and Mason" },
+            { "code": "C4", "name": "Roseblossom", "role": "Halfling Scout and Stove Tender" }
+          ],
+          "temporary_visitors": ["Unnamed ginger catfolk hunter (outer foyer, from Cycle 124)"]
+        },
+        "image_prompt": "A lone jagged mountain of grey rock and white quartz bands standing above a frozen basin, a tiny stone ledge with a spinning windmill and an elevator cabin hanging halfway up its southern face.",
+        "sub_regions": [
+          {
+            "sub_region_id": "sub_southern_gully",
+            "name": "Southern Zigzag Gully and Conifer Slopes",
+            "image_prompt": "A steep zigzag scree gully glazed in frost and black ice with carved footholds, descending 50 metres to scrubby conifer slopes.",
+            "locations": [
+              {
+                "location_id": "loc_zigzag_gully",
+                "name": "Southern Zigzag Gully",
+                "status": "Active route",
+                "description": "Steep 50 m scree gully from the foot of the mountain up to the ledge. Chipped flat footholds (Cycle 24) and a wider smoothed sled trail (Cycle 29) make it passable; frozen it is treacherous without crampons. Largely replaced by the elevator since Cycle 86.",
+                "image_prompt": "A zigzagging frozen scree gully with chipped flat footholds and a smoothed haul trail, a rope hanging down a sheer cliff beside it."
+              },
+              {
+                "location_id": "loc_lower_iron_vein",
+                "name": "Lower Slope Iron-Bearing Vein",
+                "status": "Active quarry",
+                "description": "Exposed vein of iron-bearing rock at the foot of the mountain. Yields: about 14 kg (Cycle 27), 25 kg on the sled (Cycle 30), about 8 kg of hematite (Cycle 43).",
+                "image_prompt": "A rust-red iron-bearing rock seam at the foot of a mountain with a wooden drag sled loaded with ore beside it."
+              },
+              {
+                "location_id": "loc_lower_conifer_line",
+                "name": "Lower Conifer and Scrub Line",
+                "status": "Active timber source",
+                "description": "Low conifers, hardwood scrub and tough grasses at the western foot and lower slopes. Source of logs (three ~40 kg trunks in Cycle 79), branches, timber for beams and softwood for charcoal.",
+                "image_prompt": "A sparse line of low frost-bitten conifers and scrub at the foot of a mountain with fresh axe-cut stumps."
+              },
+              {
+                "location_id": "loc_lower_hunting_ground",
+                "name": "Lower Southern Slopes Hunting Ground",
+                "status": "Active",
+                "description": "Goat grazing near an exposed quartz vein (Cycle 31) and a seasonal pool (Cycle 121). Goats and rock hyraxes hunted here.",
+                "image_prompt": "Rocky lower slopes with a pale quartz vein, a small seasonal pool and a feral goat grazing among frozen grass."
+              },
+              {
+                "location_id": "loc_survey_marker_line",
+                "name": "Charcoal Survey Marker Line",
+                "status": "Active",
+                "description": "Bold charcoal survey lines struck on rock faces at regular spacing within line of sight (Cycle 92).",
+                "image_prompt": "Bold black charcoal lines and arrows drawn on pale rock faces at intervals across a frosty slope."
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_eastern_fault",
+            "name": "Eastern Ledge Fault and Frozen Mountain Pool",
+            "description": "Deep rock fracture 40 m east of the ledge, reached by roping along the cliff, containing a freshwater pool frozen under 20 cm of ice, bordered by bauxite and quartz seams.",
+            "image_prompt": "A deep rock crack on a cliff face holding a frozen pool under a thick ice sheet, white quartz and pale bauxite seams on its walls.",
+            "locations": [
+              {
+                "location_id": "loc_eastern_ice_pool",
+                "name": "Eastern Frozen Pool",
+                "status": "Frozen; ice harvested",
+                "discovered_cycle": 90,
+                "description": "Source of 18 kg of clean ice slabs (Cycle 90), plus 12 kg of bauxite and 4 kg of quartz, then 15 kg more quartz and bauxite (Cycle 91). A clay-pipe water line to Malmskor failed because clay flash-froze (Cycle 91). Beneath it Entangled started an interior tunnel (Cycle 117).",
+                "image_prompt": "A frozen pool under a thick sheet of grey-blue ice in a narrow cliff fracture, two figures roped to the rock chopping ice with picks."
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_summit",
+            "name": "Lone Mountain Summit",
+            "description": "Unexplored. Roseblossom was to search for a large body of water on the top (Cycle 81) but the climb was cancelled for a storm.",
+            "image_prompt": "A storm-scoured bare mountain summit of ice-crusted rock under racing cloud, no signs of life.",
+            "locations": [
+              {
+                "location_id": "loc_summit_unexplored",
+                "name": "Summit Plateau (Unexplored)",
+                "status": "Unknown",
+                "description": "No scouting yet. Goals recorded: find a large body of water; use the summit for a panoramic view.",
+                "image_prompt": "A wind-swept snowy summit plateau with scattered boulders and a faint frozen tarn in the distance."
+              }
+            ]
+          },
+          {
+            "sub_region_id": "sub_malmskor_ledge",
+            "name": "50-Meter Southern Ledge (Malmskor / Iron Ledge)",
+            "description": "Active mountain stronghold, forge workshop and deep mining adit. Entangled found a ready-made bloomery camp on the ledge in Cycle 22 and made it home; crew arrived Cycle 53; named Malmskor ('Iron Ledge') in Cycle 85. Some prompts type it 'Melmskor'.",
+            "image_prompt": "A fortified stone ledge halfway up a sheer mountain face: a slanted shale-roofed foyer, a squat round stone tower, a four-sailed hide windmill spinning on the cliff and a timber elevator cabin hanging on a rope, frost and smoke in the air.",
+            "settlement_infrastructure": {
+              "defenses_and_exterior": [
+                {
+                  "facility_id": "fac_bloomery_camp_origin",
+                  "name": "Original Bloomery Ledge Camp",
+                  "status": "Absorbed into Malmskor",
+                  "built_cycle": 22,
+                  "description": "Camp found on arrival: low windbreak walls dry-stacked from dense bauxite and ironstone around the rough cylindrical chimney of a smelting bloomery. Became the core of the shelter.",
+                  "hallucination_flag": true,
+                  "hallucination_reason": "Spontaneous Manifestation Hallucination: a pre-built camp and bloomery appeared in Cycle 22 so the settlement could start without any construction.",
+                  "image_prompt": "A mountain ledge at night with low walls of rust-brown ironstone and pale bauxite around a stubby cylindrical clay bloomery chimney."
+                },
+                {
+                  "facility_id": "W10",
+                  "name": "Slanted-Roof Stone Foyer and Ledge Barricade",
+                  "status": "Operational",
+                  "built_cycle": 108,
+                  "description": "Wide curving arc of dry-stacked quartz and bauxite boulders spanned with conifer logs and steep shale roof slabs to deflect rockslides. Rebuilt in Cycle 109 so the elevator winch, transfer shaft and elevator landing are inside it while the windmill sails stay clear. Sealed with clay-bauxite-quartz mud mortar (Cycle 111). The ledge's outer room: the catfolk visitor shelters here from Cycle 124.",
+                  "image_prompt": "A low curved dry-stacked boulder foyer with a steep slanted roof of grey shale slabs on conifer logs, clay-sealed seams, a timber elevator cabin open inside, frost on the roof."
+                },
+                {
+                  "facility_id": "R4",
+                  "name": "Two-Level Circular Defense Tower and Gimbal Crossbow Turret",
+                  "status": "Under Construction",
+                  "design_cycle": 110,
+                  "description": "Circular dry-stacked bauxite and quartz wall at shoulder height (Cycle 115) with interior clay render (Cycle 121). Design: lower level gives secure access to the settlement, narrow steps curve up the inner wall to the upper level where the heavy crossbow sits on a central pivot pin in a lubricated socket with a U-bracket for tilt, under a dome with a panoramic window and stove-heat vents. Not yet built: dome and roof, upper deck, steps, window, vents, crossbow prod, net launcher.",
+                  "image_prompt": "A squat round shoulder-high dry-stone tower on a cliff ledge, interior walls smeared with grey clay, a timber crossbow frame leaning inside waiting for its dome."
+                },
+                {
+                  "facility_id": "fac_gimbal_crossbow",
+                  "name": "Heavy Gimbal Crossbow (Incomplete)",
+                  "status": "Partially Built",
+                  "description": "Carved conifer tiller stock (Cycles 113-114) with forged rolling nut, sear lever and iron U-bracket. Heavy wooden bolts shaved from pine. Missing the prod (bow stave); the narrative admitted this in Cycle 116. Not yet mounted or fired.",
+                  "image_prompt": "A massive wooden crossbow tiller with a hand-forged iron rolling nut and trigger lever and a forged iron U-bracket, no bow limbs yet, beside a bundle of long wooden bolts."
+                },
+                {
+                  "facility_id": "fac_rain_basin",
+                  "name": "Clay-Glazed Lead-Silver-Copper Rainwater Catchment Basin",
+                  "status": "Operational",
+                  "built_cycle": 116,
+                  "description": "Wide heavy alloy basin dished under the windmill-driven trip-hammer from lead-silver and copper matte, lined with river-clay mud-slip to stop lead leaching (Cycle 117). Water drawn from it was crisp and tasted clean (Cycle 119).",
+                  "image_prompt": "A wide dark metal basin on a stone ledge lined with smooth grey clay, filled with clear water, frost around the rim."
+                },
+                {
+                  "facility_id": "fac_charcoal_clamp",
+                  "name": "Ledge Turf-and-Dirt Charcoal Clamps",
+                  "status": "Active (second clamp smouldering since Cycle 122)",
+                  "description": "Conifer softwood and scrub boughs stacked around a central flue, buried under turf, dirt and crushed shale and left to smoulder. First clamp built Cycle 98, opened Cycle 101 for the steel smelt. Second built Cycle 122.",
+                  "hallucination_flag": true,
+                  "hallucination_reason": "Facility Amnesia and Technological Regression Hallucination: the indoor entrance-wall charcoal kilns (W3, Cycle 54) were forgotten and the open-air dirt clamp used instead from Cycle 98.",
+                  "image_prompt": "A low earth-covered mound on a cliff ledge with a thin thread of smoke rising from the flue hole, conifer branch ends poking out of the turf."
+                },
+                {
+                  "facility_id": "fac_boulder_barricade",
+                  "name": "Boulder Barricade and Entrance Chokepoint",
+                  "status": "Operational",
+                  "built_cycles": [56, 57],
+                  "description": "Dede stacked massive basalt and ironstone boulders along the stone wall to choke the ledge entrance into a bottleneck.",
+                  "image_prompt": "Massive dark basalt and rusty ironstone boulders stacked along a narrow cliff ledge, leaving a tight gap to the stone doorway."
+                },
+                {
+                  "facility_id": "fac_warning_sign",
+                  "name": "Slate Warning Sign",
+                  "status": "Active",
+                  "built_cycle": 53,
+                  "description": "Slate slab chiselled WARNING! ENTANGLED PATH AHEAD, propped at the ledge. The original order was to place it at the start of the path below.",
+                  "image_prompt": "A slab of dark slate propped upright on a frosty ledge with deep chiselled capital letters reading WARNING! ENTANGLED PATH AHEAD."
+                },
+                {
+                  "facility_id": "fac_anchor_notch",
+                  "name": "Cliff-Rim Anchoring Notch",
+                  "status": "Operational",
+                  "built_cycle": 38,
+                  "description": "Deep V-notch chiselled into a solid dark rock vein at the cliff rim to seat the main winch axle.",
+                  "image_prompt": "A deep V-shaped notch chiselled into the dark rock lip of a cliff edge, rope fibre and frost around it."
+                },
+                {
+                  "facility_id": "fac_cliff_vent",
+                  "name": "85 cm Cliff Vent Shaft",
+                  "status": "Operational",
+                  "built_cycles": [66, 67, 68],
+                  "description": "Horizontal vent bored into the cliff face (40, then 65, then 85 cm deep). Later the base of the layered chimney of the quartz-bauxite furnace (Cycle 72).",
+                  "image_prompt": "A neat round vent shaft bored into a rock face beside a cliff ledge, soot staining the lip."
+                },
+                {
+                  "facility_id": "fac_drying_rack",
+                  "name": "Hide Drying Rack",
+                  "status": "Active",
+                  "built_cycle": 122,
+                  "description": "Wooden rack on the ledge where the young goat hide is stretched tight to dry in the mountain breeze.",
+                  "image_prompt": "A simple wooden rack on a cliff ledge with a stretched goat hide drying in the wind."
+                },
+                {
+                  "facility_id": "fac_entrance_door",
+                  "name": "Seamless Conifer Plank Door with Tumbler Lock",
+                  "status": "Operational",
+                  "built_cycle": 37,
+                  "description": "Seamless door of hewn conifer planks pegged and lashed together (Cycle 37). Lock: dwarf-forged iron-and-copper tumbler lock with sliding tumblers, latch and casing, forged Cycle 61 and engaged from Cycle 62. Tested smooth in Cycle 124.",
+                  "image_prompt": "A heavy seamless door of pale hewn conifer planks pegged together set in a clay-sealed stone wall with a dark iron-and-copper tumbler lock plate."
+                }
+              ],
+              "transport_and_power": [
+                {
+                  "facility_id": "W5_W6",
+                  "name": "Windmill-Powered 50 m Walk-In Conifer Elevator and Counterweight Winch",
+                  "status": "Operational",
+                  "built_cycles": [38, 44, 78, 84, 85, 86, 103],
+                  "description": "Winch drum raised to 2.5 m (Cycle 78) so a full-height walk-in cabin meets the ground. Cabin framed from heavy conifer timbers (Cycle 84), hung on forged iron suspension brackets and braided cables (Cycle 85), balanced by about 200 kg of stone ballast in woven bags. Tested empty on a 50 m drop (Cycle 86). Powered by the windmill's sliding lantern-gear transmission from Cycle 103. Opens directly into the foyer. The old drum winch with 20 m grass cordage and a 40 kg boulder test dates to Cycle 44.",
+                  "image_prompt": "A timber walk-in lift cabin built of heavy conifer logs hanging from forged iron brackets on thick braided rope over a 50-metre cliff drop, an iron-braced wooden winch drum above it inside a stone foyer."
+                },
+                {
+                  "facility_id": "fac_windmill",
+                  "name": "Vertical Cliff-Face 4-Sail Windmill",
+                  "status": "Operational",
+                  "built_cycles": [91, 93],
+                  "description": "Vertical wooden axle fixed to the cliff face with forged iron brackets and pegs (Cycle 91), four goat-hide sails on conifer timber frames added in Cycle 93. A sliding pine lantern-gear transmission shares power between the elevator winch, the hide bellows (via camshaft and lever) and the trip-hammer cam.",
+                  "image_prompt": "A tall vertical wooden axle bolted to a sheer rock face carrying four stitched goat-hide sails on conifer frames, spinning in a gale beside a stone ledge."
+                },
+                {
+                  "facility_id": "fac_transmission",
+                  "name": "Sliding Lantern-Gear Transmission and Camshaft",
+                  "status": "Operational",
+                  "built_cycles": [96, 103],
+                  "description": "Carved pine lantern gear with locking pins, greased with animal fat, plus a fixed-ratio pine camshaft and wooden lever. A mechanical cone drive for variable speed was judged unbuildable and dropped (Cycle 96).",
+                  "image_prompt": "A chunky carved pine lantern gear and a heavy cam lobe on a wooden shaft inside a stone alcove, fat-greased pegs and a long wooden lever."
+                }
+              ],
+              "interior_workshops_and_sectors": [
+                {
+                  "facility_id": "fac_main_workshop_hall",
+                  "name": "Original Ledge Shelter / Main Workshop Hall",
+                  "status": "Operational",
+                  "built_cycles": [24, 37, 43],
+                  "description": "Mud-mortared dry-stack stone room with a door, drafts sealed with stone-dust-and-soil render (Cycle 37) and goat pelts pinned to interior walls for insulation (Cycle 43). Entry to the adit workings. Includes a heated mud-and-boulder bench (Cycle 25) and a tool and stone-cache corner.",
+                  "image_prompt": "A snug rough-stone workshop interior lit by furnace glow, grey clay render on the walls, goat pelts pinned for insulation, a heated stone bench and tool racks."
+                },
+                {
+                  "facility_id": "W1",
+                  "name": "Lengthened Ceramic-and-Slate Cooking Stove",
+                  "status": "Operational",
+                  "built_cycle": 49,
+                  "description": "Original circular furnace rebuilt with wet clay and flat stone into a long cooking stove with a sealed fire channel, tidy draft chimney at the far end and a broad slate top. Keeps the workshop at about 20C.",
+                  "image_prompt": "A long clay-and-stone cooking stove capped with a broad slab of dark slate, goat meat searing on top, a tidy chimney at the far end."
+                },
+                {
+                  "facility_id": "W2",
+                  "name": "Central Circular Hearth Furnace",
+                  "status": "Operational",
+                  "built_cycle": 54,
+                  "description": "Circular clay-and-cobble hearth furnace in the middle of the workshop floor, raised with the crew's help. Forged splint mail, spearheads, the trade token and the lock here (Cycles 55-62).",
+                  "image_prompt": "A circular wet-clay and river-cobble hearth furnace at the centre of a stone workshop with an orange glowing heart, tongs and a basalt hammer beside it."
+                },
+                {
+                  "facility_id": "W3",
+                  "name": "Entrance-Wall Vented Stone Charcoal Kilns",
+                  "status": "Operational (bypassed in later cycles)",
+                  "built_cycle": 54,
+                  "description": "Row of charcoal furnaces set along the inside of the entrance wall, aligned with natural cracks for ventilation and connected to the old furnace vents. Overnight choked-furnace charcoal-making (Cycle 39) is a separate method.",
+                  "hallucination_flag": true,
+                  "hallucination_reason": "A sealed charcoal kiln was already present in Cycle 26 before any kiln was built (premature manifestation), and these built kilns were then forgotten in favour of outdoor clamps.",
+                  "image_prompt": "A row of squat vented stone-and-clay charcoal furnaces along an interior stone wall, small iron-barred vent holes and sealed mud hatches."
+                },
+                {
+                  "facility_id": "W4",
+                  "name": "Quartz-Bauxite Crucible Furnace with Windmill-Driven Double Hide Bellows",
+                  "status": "Operational",
+                  "built_cycles": [72, 97, 98],
+                  "description": "Ring of heat-resistant bauxite and quartz blocks at the base of the 85 cm cliff vent, with a layered chimney aligned to the shaft. Air throat widened (Cycle 97). Fed by a large double goat-hide bellows on pine-plank frames, sealed with animal fat and pine resin, nozzled into the throat and driven by the windmill camshaft (Cycle 98). Reached more than 1,300C white heat and produced the steel bloom of Cycle 102.",
+                  "image_prompt": "A white-hot furnace of pale bauxite and quartz blocks with a tall layered chimney, a huge stitched goat-hide double bellows pumping into its throat, sparks and blinding glow."
+                },
+                {
+                  "facility_id": "fac_large_hide_bellows",
+                  "name": "Large Double Goat-Hide Bellows",
+                  "status": "Operational",
+                  "built_cycle": 98,
+                  "description": "Accordion bellows of flat planed pine boards wrapped in stitched goat pelt (bone awl and braided cordage), seams smeared with fat and pine resin; connected to the windmill camshaft. Replaced the small hand bellows of Cycle 26.",
+                  "image_prompt": "A huge accordion bellows made from pine boards wrapped in stitched tan goat hide, seams glossy with fat and resin, a stone nozzle pointing into a furnace."
+                },
+                {
+                  "facility_id": "W9",
+                  "name": "Windmill-Driven Hardwood Trip-Hammer",
+                  "status": "Operational",
+                  "built_cycle": 104,
+                  "description": "Heavy hardwood trunk bored for a fulcrum pin, lifted by wooden cam pegs on the windmill drive shaft and dropped on a massive basalt boulder anvil bed between two 2 m mortised conifer beams. Used in Cycle 116 to flatten lead-silver and copper into the rain basin.",
+                  "image_prompt": "A huge hardwood trunk pivoted on a fulcrum between two mortised conifer beams, lifted by a pegged cam and about to drop on a black basalt boulder anvil."
+                },
+                {
+                  "facility_id": "T5",
+                  "name": "5-Kilogram Forged Iron Anvil",
+                  "status": "Active",
+                  "built_cycle": 30,
+                  "description": "Forged from the iron wedge using crampon tongs and a basalt cobble: flat top, flared base.",
+                  "hallucination_flag": true,
+                  "hallucination_reason": "Equipment Degradation Hallucination: frequently downgraded in narrative text to a 'boulder anvil', 'stone bench' or 'basalt stone' because of context-window truncation. The iron anvil is canon.",
+                  "image_prompt": "A small squat hand-forged iron anvil about five kilograms with a flat top and flared base, resting on a stout stump in firelight."
+                },
+                {
+                  "facility_id": "fac_quench_trough",
+                  "name": "Bark Quench Trough",
+                  "status": "Active",
+                  "built_cycle": 37,
+                  "description": "Bark trough of water used to temper hot-forged iron and splints. Sometimes filled with melted frost or bark water.",
+                  "image_prompt": "A folded bark trough of dark water with steam rising as a glowing iron blade is plunged in."
+                },
+                {
+                  "facility_id": "W7",
+                  "name": "Sub-Zero Walk-In Permafrost Freezer",
+                  "status": "Operational",
+                  "built_cycle": 47,
+                  "description": "Niche about 1 m deep cut into the quartz-veined rear wall of the original shelter; the rock bleeds sub-zero chill and keeps meat (9 kg stored first). A planned larger freezer on the outer front wall and a connecting fridge are only on the settlement map.",
+                  "image_prompt": "A deep dark niche cut in a quartz-veined rock wall with frost on its sides and wrapped cuts of goat meat stacked inside, a stacked-slab door beside it."
+                },
+                {
+                  "facility_id": "S4",
+                  "name": "Right-Flank Mining and Residential Corridor",
+                  "status": "Active",
+                  "built_cycles": [66, 67, 69, 72, 73, 74, 80, 87],
+                  "description": "Corridor driven into the rock from the workshop with quartz and hematite bands deliberately left as wall decoration (Cycle 72). Contains a 2 m deep sleeping alcove (Cycle 80) with a wooden door and moss pallets, and the copper and lead-silver vein face reached at its end (Cycle 87). Total excavated length is not recorded in the chronicle; the earlier 22.5 m figure is unverified.",
+                  "image_prompt": "A freshly cut rock corridor with white quartz and rust-red iron bands left bare as decoration, a pickaxe and bags of rubble on the floor, a sleeping alcove with moss pallets."
+                },
+                {
+                  "facility_id": "fac_guest_bunks",
+                  "name": "Four Stone-and-Hide Guest Bunks",
+                  "status": "Operational",
+                  "built_cycle": 45,
+                  "description": "Four raised stone platforms levelled with gravel and layered with conifer branches, grass and scrap hide. Later replaced in daily use by moss pallets.",
+                  "image_prompt": "Four raised rough-stone bunks padded with conifer boughs and goat hides in a row inside a warm stone room."
+                },
+                {
+                  "facility_id": "fac_stone_water_basin",
+                  "name": "Stone Water Basin",
+                  "status": "Operational",
+                  "built_cycle": 24,
+                  "description": "Natural stone basin fed by melting frost trickling off the cliff above; later also used for melting ice and boiling water.",
+                  "image_prompt": "A natural stone basin collecting a slow clear trickle of meltwater under a frosty cliff face."
+                }
+              ],
+              "records_and_libraries": [
+                {
+                  "facility_id": "W8_W11",
+                  "name": "Abacus Wall, Slate Library and Peg-Board Lookup Board",
+                  "status": "Active",
+                  "built_cycles": [48, 57, 74, 75, 76, 82, 84],
+                  "description": "Wall-grid of grooves with sliding wooden pegs tracks resource stock (Cycle 48). Numbered slate blueprint library in a corner cache (Cycle 57). 100 forged flat-topped iron ID pegs (Cycle 74). Lookup tables on slate: crew and action IDs (Cycles 75-76), materials (Cycle 76), components (Cycle 82), master index (Cycle 84). The planned wooden cabinet with ten-person rows and ten-tablet ring binder is NOT built for lack of lumber.",
+                  "image_prompt": "A rough rock wall carved with a grid of grooves and sliding wooden pegs beside stacks of numbered dark slate tablets and a pouch of small flat-topped iron pegs."
+                },
+                {
+                  "facility_id": "fac_stone_task_list",
+                  "name": "Stone Task List Slab",
+                  "status": "Active",
+                  "built_cycle": 28,
+                  "description": "Square slab carved into the wall listing sleep, eat, hunt, train and survival routines. Entry '0 Days Food' was carved in Cycle 30 then crossed out in Cycle 31.",
+                  "image_prompt": "A square slab chiselled into a rock wall with rows of crude symbols and a short list of daily tasks."
+                },
+                {
+                  "facility_id": "fac_master_map_slab",
+                  "name": "Master Settlement Map Slab and Slate Table",
+                  "status": "Active",
+                  "built_cycles": [49, 63, 66, 67, 69, 81],
+                  "description": "Wide slate slab carved with Industry, Armoury, Sustenance and Great Hall districts plus runic wayfinding marks (Cycle 49). Later updated in charcoal on a slate table (see settlement_plan_map).",
+                  "image_prompt": "A wide dark slate table scratched with charcoal lines showing halls, corridors and rooms of a mountain settlement, small runic arrows in the margins."
+                },
+                {
+                  "facility_id": "fac_rules_slab",
+                  "name": "Workshop Rules Slab",
+                  "status": "Active",
+                  "built_cycle": 54,
+                  "description": "Three engraved rules: restock used charcoal by firing more; restock used forging resources; workshop tools remain the property of the workshop. Stands by the door.",
+                  "image_prompt": "A flat slate slab carved with three short lines of rules, propped beside a stone doorway."
+                },
+                {
+                  "facility_id": "fac_daily_plans_slate",
+                  "name": "Daily Plans Slate and Morning Meeting Notes",
+                  "status": "Active",
+                  "built_cycle": 60,
+                  "description": "Wipeable slate tile titled 'Daily Plans' with charcoal task assignments, refreshed at the regular morning meeting. Meeting notes also recorded on slate (Cycle 107). Wishlist slates by Roseblossom (poncho) and Helrune (insulated leg wraps) are filed in the library (Cycle 58).",
+                  "image_prompt": "A dark slate tile with the words DAILY PLANS scratched across the top and charcoal checklists beneath, smudged by hands, on a stone table."
+                }
+              ],
+              "excavation_state": {
+                "summary": "Work is hand-mined with picks along the right-flank corridor and the rear adit. Roughing out of the Grand Banquet Hall and Grand Workshop ceilings began in Cycle 104; an interior tunnel beneath the frozen pool was started in Cycles 117 and 119-120. No finished hall or workshop dome exists yet.",
+                "veins_seen": ["hematite bands (corridor, adit)", "quartz bands (kept as decoration)", "copper ore with lead-silver clusters (Cycle 87)", "bauxite (15 kg slab Cycle 104)"],
+                "image_prompt": "A cross-section of a mountain tunnel with a dwarf and elf swinging pickaxes at a rock face striped with white quartz and rust-red hematite, rubble bags and a lantern."
+              },
+              "inventory_pointers": {
+                "tools_weapons_armor": "See world.items",
+                "materials_and_stockpiles": "See world.materials_and_resources",
+                "latest_stock_notes": "Hematite: 60 kg charged to the furnace on Cycle 101; fresh veins exposed in the adit. Copper matte and lead-silver bullion: consumed forging the rain basin (Cycle 116). Charcoal: second clamp smouldering. Food: young goat kid roasted Cycle 122; freezer niche meat stock not re-counted. Water: basin rainwater plus meltwater."
+              }
+            },
+            "planned_sectors": [
+              {
+                "sector_id": "S_entry_room",
+                "name": "Mountain Entry Room (Armour and Ice-Boot Room)",
+                "status": "Planned",
+                "design_cycle": 63,
+                "description": "Stout room at the mountain entrance for removing heavy armour and muddy ice crampons, followed by a short corridor to the banquet hall.",
+                "image_prompt": "A stout stone entry chamber with wall pegs for armour and crampons, a bench and muddy boot marks, a short corridor beyond."
+              },
+              {
+                "sector_id": "S_banquet_hall",
+                "name": "Grand Banquet Hall (200 seats)",
+                "status": "Planned (ceilings roughed out Cycle 104)",
+                "design_cycle": 63,
+                "description": "Hall seating 200 with long tables and wide walking lanes; buffet along the left side serving from an adjoining kitchen with open walkways on both sides; corridors to the residential wing (right) and the kitchen and far-end corridor to the central intersection.",
+                "image_prompt": "A vast carved-stone dwarven banquet hall with long rows of rough tables for two hundred, a buffet counter on the left, glowing ore veins in the walls and iron lamps."
+              },
+              {
+                "sector_id": "S_kitchen",
+                "name": "Kitchen for Four Cooks with Freezer and Fridge",
+                "status": "Planned",
+                "design_cycle": 66,
+                "description": "Wide prep benches, heavy stoves and dry pantry storage; a walk-in freezer on the frozen outer front wall linked to a walk-in fridge that opens into the kitchen.",
+                "image_prompt": "A stone kitchen with four wide prep benches, heavy clay stoves and shelved pantry, a frost-rimed rock door leading to a cold store."
+              },
+              {
+                "sector_id": "S_sleeping_corridor",
+                "name": "Sleeping Quarters Corridor",
+                "status": "Partially Built (see S4)",
+                "design_cycle": 66,
+                "description": "20 m corridor bending 90 degrees from the banquet hall's right side with three evenly spaced doorways on its right into rooms with multiple beds, storage, a door and rough-hewn walls.",
+                "image_prompt": "A bending rock corridor with three timber doors on one side, each opening to a rough-hewn bedroom with bunks and storage niches."
+              },
+              {
+                "sector_id": "S_washhouse",
+                "name": "Communal Washhouse and Latrines",
+                "status": "Planned",
+                "design_cycle": 67,
+                "description": "Large bathroom on the corridor's left with multiple stone toilets and washbasins, doors to the corridor and directly to the banquet hall, vent draft to avoid stale air.",
+                "image_prompt": "A stone washhouse with a row of carved stone basins and toilet stalls and a gentle draft vent in the ceiling."
+              },
+              {
+                "sector_id": "S_central_intersection",
+                "name": "Far-End Corridor and Central Intersection",
+                "status": "Planned",
+                "design_cycle": 69,
+                "description": "20 m corridor from the end of the banquet hall to a wide central intersection with load-bearing pillars; left branch to the kitchen, right to the sleeping corridor.",
+                "image_prompt": "A wide stone intersection with thick carved pillars where four corridors meet, torchlight and iron-banded doors."
+              },
+              {
+                "sector_id": "S_grand_workshop",
+                "name": "Grand Workshop (50 m Domed Chamber)",
+                "status": "Planned (ceiling roughed out Cycle 104)",
+                "design_cycle": 81,
+                "description": "Vast 50 m diameter domed chamber off the intersection with thick wooden support arches, arch locking stones holding the dome, and vents redirecting rising heat to the settlement.",
+                "image_prompt": "A huge domed forge-hall carved in a mountain, thick timber arches and wedge keystones locking the stone dome, forges and anvils glowing below, heat vents above."
+              },
+              {
+                "sector_id": "S_armoury_warehouse",
+                "name": "Armoury and Warehouse (Stock Manifest)",
+                "status": "Planned",
+                "design_cycle": 105,
+                "description": "Stocked with ingots, steel axes, arrow tips, butchering knives, daggers, steel claws, iron cams and axles, steel blacksmith hammers, swords, full-body steel armour, iron rail-cart tracks and clay-lined personal heater boxes. Stock counts are quotas only; none yet made.",
+                "image_prompt": "A mountain armoury with racks of steel swords, axes and full plate suits, stacked iron ingots and rail-cart tracks, stone shelves under lantern light."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "region_id": "reg_ironhold_southeast",
+        "name": "Ironhold (Reported, Unvisited)",
+        "description": "A settlement to the south-east in the valley, reported by Entangled in Cycle 124. Ryu framed a fine timber hall there; Ryu and Cisero then marched south out of the valley.",
+        "region_weather": "Unknown.",
+        "region_population": { "living": 0, "notes": "Residents unknown." },
+        "image_prompt": "A frosty valley settlement of fresh timber-frame halls in a snowy conifer clearing, smoke rising from chimneys.",
+        "sub_regions": [
+          {
+            "sub_region_id": "sub_ironhold",
+            "name": "Ironhold Timber Hall",
+            "image_prompt": "A freshly framed timber hall with a pitched roof in a frost-whitened valley.",
+            "locations": [
+              {
+                "location_id": "loc_ironhold",
+                "name": "Ironhold",
+                "status": "Reported",
+                "description": "Known only from Entangled's reply to the catfolk hunter. Related people: Ryu, Cisero.",
+                "image_prompt": "A small frontier settlement of log buildings around a central hall, wooden palisade and thin smoke columns."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "characters": [
+      {
+        "id": "chr_entangled",
+        "pegboard_id": "C1",
+        "name": "Entangled",
+        "race": "Dwarf",
+        "gender": "Unspecified (narrated in second person; one prompt in Cycle 33 uses 'her')",
+        "role": "Master Smith, Engineer and Founder of Malmskor",
+        "status": "Active",
+        "first_appearance_cycle": 1,
+        "current_location": "loc_malmskor_ledge (Malmskor)",
+        "personality": "Stubborn, practical and blunt but kind. Mentors with direct instructions ('lad'), boasts about stout dwarven ale, prefers making real tools to dreaming, but sketches big designs on slate and honestly drops them when materials do not exist.",
+        "skills": ["bloomery iron and steel smelting", "hot forging and quenching", "dry-stack masonry and corbelling", "pickaxe mining along fracture seams", "mortise-and-tenon carpentry", "hide curing and bone-needle stitching", "hunting with spear, bolas and clawed gauntlets", "mechanical engineering (winch, windmill, cam, trip-hammer, bellows)", "slate blueprint drafting and record keeping", "basic wound care"],
+        "wound_history": [
+          { "cycle": 48, "injury": "Arrow punctured right shoulder; shortsword slash across thigh." },
+          { "cycle": 60, "injury": "Thigh cut fully knitted." },
+          { "cycle": 67, "injury": "Shoulder fully healed." }
+        ],
+        "equipment_item_ids": ["itm_steel_pickaxe", "itm_iron_sword", "itm_iron_claw_gauntlets", "itm_iron_splint_mail", "itm_heat_boxes_iron", "itm_iron_axe", "itm_iron_forge_tongs", "itm_crampons", "itm_goat_hide_gloves", "itm_winter_tunic"],
+        "active_goals": ["make three more steel pickaxes", "forge a bow stave for the heavy crossbow", "fire clay crucibles and blister steel", "finish the defence tower dome", "excavate the Grand Banquet Hall and Grand Workshop", "build a blast furnace for cast iron"],
+        "relationships": { "chr_dede": "Mentor and co-miner", "chr_helrune": "Mentor and co-builder", "chr_roseblossom": "Mentor; shares the stove and hunts", "chr_masked_elf": "Enemy (wounded him in Cycle 48)" },
+        "image_prompt": "A stocky broad-shouldered dwarf smith in a rawhide winter tunic with a four-splint iron chest guard and two clay-lined heat boxes clipped on, hand-forged three-clawed iron gauntlets, soot-streaked face, crampons on stout boots, a steel pickaxe over the shoulder on a flexible pine handle."
+      },
+      {
+        "id": "chr_dede",
+        "pegboard_id": "C2",
+        "name": "Dede",
+        "race": "Elf",
+        "gender": "Male",
+        "role": "Scout, Miner and Windmill Maintainer",
+        "status": "Active",
+        "first_appearance_cycle": 53,
+        "current_location": "Malmskor",
+        "personality": "Quiet, careful and observant. Gives grounded reality checks ('we have raw hematite, dirt, and quartz'), learns fast, watches the furnace and masonry closely.",
+        "skills": ["pickaxe mining", "spear drills", "whittling (taught by Entangled in Cycle 63)", "charcoal making and clamp building", "bolas hunting", "windmill and bellows upkeep", "boulder stacking and masonry", "smithing assistant (forged suspension brackets, Cycle 85)"],
+        "equipment_item_ids": ["itm_iron_tipped_spears", "itm_carved_baton", "itm_stone_bolas", "itm_wrought_iron_pickaxe", "itm_plated_brigandine_vest", "itm_stored_ration_pack"],
+        "notable_events": ["Brought raw copper lump, crabs, bivalves, wild rice, dried seaweed (Cycle 54).", "Rebound Entangled's wounds (Cycle 54).", "Stacked the boulder barricade (Cycle 56)."],
+        "relationships": { "chr_entangled": "Mentee and ally", "chr_helrune": "Fellow elf and travelling companion", "chr_roseblossom": "Travelling companion" },
+        "image_prompt": "A lean male elf with sharp attentive eyes in layered goat-hide winter gear with a plated iron-and-rawhide vest, an iron-tipped spear in one hand and a pickaxe on a springy pine handle in the other, frost in his breath."
+      },
+      {
+        "id": "chr_helrune",
+        "pegboard_id": "C3",
+        "name": "Helrune",
+        "race": "Elf",
+        "gender": "Female",
+        "role": "Forager and Mason",
+        "status": "Active",
+        "first_appearance_cycle": 53,
+        "current_location": "Malmskor",
+        "personality": "Practical and plain-spoken. Hauls and builds willingly; points out hard limits like missing lye and mesh for paper.",
+        "skills": ["foraging", "boiling bark-vessel tea and water", "stone sorting and masonry", "skinning and hide scraping", "bolas and hunting", "quartz and bauxite hauling"],
+        "equipment_item_ids": ["itm_iron_tipped_spears", "itm_iron_copper_pickaxe", "itm_stone_bolas", "itm_stored_ration_pack"],
+        "notable_events": ["Sketched insulated leg-wrap design (Cycle 58).", "Careful clean skinning of the goat kid (Cycle 97, 121-122)."],
+        "relationships": { "chr_entangled": "Ally", "chr_dede": "Fellow elf", "chr_roseblossom": "Companion" },
+        "image_prompt": "A slender female elf in thick moss-lined hide layers and a windbreaking hooded cape, carrying an iron-tipped spear and a bundle of conifer branches on a frosty ledge, cheeks reddened by the cold."
+      },
+      {
+        "id": "chr_roseblossom",
+        "pegboard_id": "C4",
+        "name": "Roseblossom",
+        "race": "Halfling",
+        "gender": "Female in narrative pronouns from Cycle 58 (guest prompts in Cycles 51-53 specified a male halfling)",
+        "role": "Scout and Stove Tender",
+        "status": "Active",
+        "first_appearance_cycle": 53,
+        "current_location": "Malmskor",
+        "personality": "Cheerful and keen. Keeps the stove fed, serves tea, offers practical ideas (rain catch basins, padded poncho).",
+        "skills": ["stove tending and cooking", "tea making", "clay and quartz mixing", "ore crushing", "light scouting and foraging"],
+        "equipment_item_ids": ["itm_iron_tipped_spears", "itm_smoked_rawhide_poncho", "itm_stored_ration_pack"],
+        "notable_events": ["Drew a thick padded poncho design (Cycle 58).", "Asked for rain catch basins at the midday council (Cycle 115).", "Summit water scouting cancelled for a storm (Cycle 81)."],
+        "relationships": { "chr_entangled": "Ally", "chr_dede": "Companion", "chr_helrune": "Companion" },
+        "image_prompt": "A small cheerful halfling wrapped in a thick smoked-rawhide windbreaking poncho with moss lining, holding a steaming bark cup of fern tea beside a clay stove, round rosy face."
+      },
+      {
+        "id": "chr_masked_elf",
+        "name": "Masked Elf Raider (Hostile)",
+        "race": "Elf",
+        "gender": "Male (referred to as 'he')",
+        "role": "Hostile ambusher",
+        "status": "Unknown (wounded, fled east)",
+        "first_appearance_cycle": 48,
+        "description": "Light-footed masked elf in an iron-plated vest. Shot a flint-tipped arrow into Entangled's right shoulder, then fought with spear and shortsword and slashed Entangled's thigh. Entangled's three-clawed gauntlet blow cracked his ribs and snapped his spear before he fled east.",
+        "threat_level": "Moderate",
+        "image_prompt": "A masked light-footed elf raider in a dark hooded cloak and an iron-plated vest, flint-tipped arrows in a quiver, a spear and shortsword drawn, crouched behind a frosty boulder."
+      },
+      {
+        "id": "chr_catfolk_visitor",
+        "name": "Ginger Catfolk Hunter (Visitor)",
+        "race": "Catfolk",
+        "gender": "Male (referred to as 'he')",
+        "role": "Traveller seeking Ryu",
+        "status": "Active (sheltering in the outer foyer)",
+        "first_appearance_cycle": 124,
+        "description": "Ginger-furred catfolk who climbed the gully at half past one with an unstrung bow and hands held low and clear. Asked after Ryu; Entangled told him Ryu built a timber hall at Ironhold and then marched south with Cisero days earlier. Allowed to rest in the outer foyer until dawn.",
+        "threat_level": "Friendly",
+        "image_prompt": "A ginger-furred catfolk hunter in worn leather and fur, an unstrung recurve bow slung over his shoulder, hands raised open, whiskers frosted with ice, standing at a stone doorway."
+      },
+      {
+        "id": "chr_ryu",
+        "name": "Ryu",
+        "gender": "Unknown",
+        "status": "Reported (marched south days before Cycle 124)",
+        "description": "Framed a fine timber hall at Ironhold in the south-east. Looked for by the catfolk hunter. Never met on-screen.",
+        "image_prompt": "A rugged frontier builder in a fur-trimmed coat holding a timber-framing adze before a half-finished log hall in snow."
+      },
+      {
+        "id": "chr_cisero",
+        "name": "Cisero",
+        "gender": "Unknown",
+        "status": "Reported (marched south with Ryu)",
+        "description": "Companion of Ryu named only once, in Cycle 124.",
+        "image_prompt": "A cloaked traveller with a heavy pack and a walking staff marching south along a frozen valley trail."
+      }
+    ],
+    "creatures_and_enemies": [
+      {
+        "id": "crt_feral_goat",
+        "name": "Feral Goat",
+        "category": "Fauna / main game animal",
+        "status": "Active hunting target",
+        "habitat": "Tidal gullies, lower southern slopes of Lone Mountain, scrub",
+        "behavior": "Grazes alone on rocks and dry shoots; stalked from above or downwind and speared, tackled, bolas-tripped or struck with claws.",
+        "kill_log": [
+          { "cycle": 8, "yield": "Small goat: pelt, leg sinew, prime meat" },
+          { "cycle": 31, "yield": "About 40 kg goat: 15 kg meat and hide" },
+          { "cycle": 42, "yield": "15 kg meat and intact hide; hide used for wall insulation" },
+          { "cycle": 92, "yield": "About 40 kg goat: meat and hide; windmill sails made from goat hide" },
+          { "cycle": 97, "yield": "About 40 kg goat: meat and clean pelt for the big bellows" },
+          { "cycle": 121, "yield": "Young goat kid felled by Dede's bolas, roasted and hide stretched (Cycle 122)" }
+        ],
+        "image_prompt": "A shaggy wild mountain goat with curved horns standing on frosty scree among low scrub, breath steaming, grey-brown coat."
+      },
+      {
+        "id": "crt_rock_hyrax",
+        "name": "Rock Hyrax",
+        "category": "Fauna",
+        "status": "Hunted once (Cycle 24)",
+        "habitat": "Sunny rocks below the ledge",
+        "behavior": "Basks in thawing sun; killed by one clean strike from the clawed gauntlet.",
+        "image_prompt": "A plump rock hyrax basking on a sunlit boulder, round body, short ears, tiny tail, grey-brown fur."
+      },
+      {
+        "id": "crt_predatory_lizard",
+        "name": "Sharp-Toothed Predatory Lizard",
+        "category": "Fauna / predator",
+        "status": "Deceased (killed Cycle 2)",
+        "habitat": "Damp crevices on the southern cliffs",
+        "behavior": "Hunkers away from the gale; killed with one spear thrust. Meat roasted; scaly hide cured as Entangled's first clothing.",
+        "image_prompt": "A sharp-toothed grey-green predatory lizard in a damp rock crevice, scaly hide and heavy tail, frost on its back."
+      },
+      {
+        "id": "crt_giant_crocodilian",
+        "name": "Giant Crocodilians",
+        "category": "Fauna / hazard",
+        "status": "Active (avoided)",
+        "habitat": "Deep water of the floodplain and river channels",
+        "behavior": "Linger in deeper pools and bellow from the channels; Entangled avoided them in Cycles 19-21.",
+        "image_prompt": "A huge crocodilian with ridged scales lurking half-submerged in a murky reed-choked river channel, only eyes and snout above the water."
+      },
+      {
+        "id": "crt_feathered_raptor",
+        "name": "Feathered Raptor (Carcass Only)",
+        "category": "Fauna / predator",
+        "status": "Deceased (carcass found Cycle 19)",
+        "habitat": "Granite ridge overhangs",
+        "behavior": "Only a picked-clean carcass seen; four large curved foot claws and hide strips were salvaged for the first gauntlet.",
+        "image_prompt": "The picked-clean skeleton of a large feathered predator with long curved talons and a few tough feather-hide scraps under a rock overhang."
+      },
+      {
+        "id": "crt_trolls_dead",
+        "name": "Two Massive Trolls (Dead)",
+        "category": "Monster / corpse",
+        "status": "Deceased (found Cycle 4)",
+        "habitat": "Frozen rocks by the river trail",
+        "behavior": "One was torn open; the other had a heavy iron bolt driven deep into its chest. Killer unidentified and armed with serious firepower.",
+        "image_prompt": "Two huge frozen troll bodies sprawled on icy rocks, one gaping open, one with a thick iron bolt buried in its chest, frost on grey skin."
+      },
+      {
+        "id": "crt_unknown_bolt_shooter",
+        "name": "Unidentified Heavy-Bolt Shooter",
+        "category": "Unknown threat",
+        "status": "Unknown",
+        "description": "Whoever put the iron bolt into a troll (Cycle 4). Not met; potentially a heavy crossbow or ballista wielder roaming the north.",
+        "image_prompt": "A distant shadowy figure behind a mounted heavy crossbow at the edge of a conifer wood, silhouetted against grey sky."
+      }
+    ],
+    "items": {
+      "tools": [
+        {
+          "id": "itm_flint_scraper",
+          "name": "Flint Scraper and Flakes",
+          "status": "Active",
+          "first_cycle": 2,
+          "description": "Struck-flint flake used for sparks, butchery, hide scraping, shaving wood and etching.",
+          "image_prompt": "A sharp grey flint flake with a knapped edge held in a calloused hand, sparks flying from a second flint."
+        },
+        {
+          "id": "itm_bone_needle",
+          "name": "Bone Needle and Bone Awl",
+          "status": "Active",
+          "first_cycle": 9,
+          "description": "Shaved and honed goat-bone splinter used to stitch hides; also punched anchor holes for the claw glove and bellows seams.",
+          "image_prompt": "A slim polished bone needle with a drilled eye beside a bone awl and a coil of sinew thread."
+        },
+        {
+          "id": "itm_quartz_pickaxe",
+          "pegboard_id": "T1",
+          "name": "Runic Quartz Pickaxe",
+          "status": "Replaced / stored",
+          "first_cycle": 12,
+          "description": "Heavy quartz wedge head with etched piercing and strength runes lashed with goat sinew and cloth to the spear shaft. Micro-fractured and blunted on hard stone. Used for early mining; shaft was the sacrificed spear.",
+          "image_prompt": "A crude pickaxe with a chipped milky quartz head carved with shallow runes, lashed to a pale driftwood shaft with sinew."
+        },
+        {
+          "id": "itm_basalt_hammer_stone",
+          "pegboard_id": "T4",
+          "name": "Basalt Hammer Stone (Smith's Hammer)",
+          "status": "Active",
+          "first_cycle": 30,
+          "description": "Heavy basalt cobble used as the smith's hammer. No forged iron or steel smith's hammer has been made despite repeated plans.",
+          "image_prompt": "A heavy rounded black basalt cobble used as a hammer, scarred with scale and scorch marks."
+        },
+        {
+          "id": "itm_iron_anvil",
+          "name": "5 kg Iron Anvil",
+          "status": "Active",
+          "first_cycle": 30,
+          "description": "See facility T5.",
+          "image_prompt": "A small hand-forged iron anvil with a flat top and flared base on a stump, scale on its face."
+        },
+        {
+          "id": "itm_iron_forge_tongs",
+          "name": "Iron Forge Tongs and Greenwood Tongs",
+          "status": "Active",
+          "first_cycle": 50,
+          "description": "Crude forged iron tongs (Cycle 50) and green-wood tongs (from Cycle 73). Early on the crampons doubled as tongs (Cycle 28-30).",
+          "image_prompt": "A pair of crude hand-forged iron tongs with long arms gripping a glowing orange bar, beside a pair of split green-wood tongs."
+        },
+        {
+          "id": "itm_iron_axe",
+          "pegboard_id": "G2",
+          "name": "Iron Axe (Lashed Head)",
+          "status": "Active",
+          "first_cycle": 44,
+          "description": "Forged axe head wedged into a split hardwood branch and bound with rawhide. Felled conifers.",
+          "image_prompt": "A hand-forged iron axe head wedged into a split hardwood handle and bound tight with rawhide, bark chips on the blade."
+        },
+        {
+          "id": "itm_iron_copper_pickaxe",
+          "name": "Custom Iron-Copper Pickaxe",
+          "status": "Active",
+          "first_cycle": 68,
+          "description": "Stout balanced head with a custom shaped scrub-wood handle fitted for an elven grip, bound with vine and shrunk rawhide. Passed between Dede, Helrune and Roseblossom.",
+          "image_prompt": "A stout iron-and-copper pickaxe with a slender scrub-wood handle bound in shrunk rawhide, copper glinting in the iron."
+        },
+        {
+          "id": "itm_wrought_iron_pickaxe",
+          "name": "Wrought-Iron Pickaxe on Spring Handle",
+          "status": "Active",
+          "first_cycle": 99,
+          "description": "Pickaxe head from a wrought-iron bloom fitted to a shock-absorbing pine leaf-spring handle and given to Dede.",
+          "image_prompt": "A heavy wrought-iron pickaxe head on a springy curved pine handle, hammer marks still visible on the iron."
+        },
+        {
+          "id": "itm_steel_pickaxe",
+          "pegboard_id": "T3",
+          "name": "High-Carbon Steel Pickaxe",
+          "status": "Active (only steel head so far)",
+          "first_cycle": 103,
+          "description": "Tapered steel head forged from the Cycle 102 bloom, eye cut to fit a pine leaf-spring handle and locked with an iron wedge through the crown. Bit through quartz and oxidised ironstone like dry clay. Three more steel heads planned but not made.",
+          "image_prompt": "A tapered dark steel pickaxe head with a clean quenched edge, locked with an iron wedge onto a flexing pine handle, sparks on rock."
+        },
+        {
+          "id": "itm_leaf_spring_handles",
+          "name": "Pine Leaf-Spring Pick Handles (x4)",
+          "status": "Active (two in use, two spare)",
+          "first_cycle": 96,
+          "description": "Four straight-grained conifer handles whittled with enough flex to absorb jarring shocks. One fitted with a wrought-iron head, one with the steel head.",
+          "image_prompt": "Four slender straight-grained conifer pick handles with a gentle flex, leaning against a stone wall, whittled smooth."
+        },
+        {
+          "id": "itm_cold_chisel",
+          "name": "Cold Chisel",
+          "status": "Active",
+          "first_cycle": 56,
+          "description": "Iron chisel used to stamp the dwarven block-rune into the trade token billet.",
+          "image_prompt": "A short iron cold chisel with a mushroomed head and a chisel tip dusted with iron scale."
+        },
+        {
+          "id": "itm_flint_lapidary_points",
+          "name": "Flint Lapidary Points",
+          "status": "Stored",
+          "first_cycle": 31,
+          "description": "Fine sharp flint shards chipped against the anvil for stone carving.",
+          "image_prompt": "A handful of tiny razor-sharp flint chips in a small leather pouch."
+        },
+        {
+          "id": "itm_drag_sled",
+          "name": "Sapling Drag Sled",
+          "status": "Active",
+          "first_cycle": 29,
+          "description": "Low-riding sled of green sapling branches lashed with rawhide for hauling ore up the gully path.",
+          "image_prompt": "A low drag sled of lashed green saplings loaded with chunks of rust-red ore on a frosty scree trail."
+        },
+        {
+          "id": "itm_crampons",
+          "pegboard_id": "T17",
+          "name": "Scrap-Iron Ice Crampons",
+          "status": "Active",
+          "first_cycle": 19,
+          "description": "Hand-forged scrap-iron spikes strapped to boots; also used as improvised tongs in early cycles.",
+          "hallucination_flag": true,
+          "hallucination_reason": "Retroactive Inventory Manifestation Hallucination: see sub_granite_ridge.",
+          "image_prompt": "A pair of rough scrap-iron crampons with downward spikes strapped over boots on black ice."
+        },
+        {
+          "id": "itm_wooden_gear_prototypes",
+          "pegboard_id": "K4",
+          "name": "Carved Wooden Gear Prototypes",
+          "status": "Stored",
+          "first_cycle": 93,
+          "description": "Crude carved conifer gears with teeth that mesh; proof for later cast-iron gears.",
+          "image_prompt": "Small hand-carved conifer gears with blocky teeth meshing on a wooden workbench, chisel marks visible."
+        },
+        {
+          "id": "itm_iron_id_pegs",
+          "name": "Iron ID Pegs (x100)",
+          "status": "Stored",
+          "first_cycle": 74,
+          "description": "One hundred flat-topped iron pegs for stamping task and character IDs, kept in a bag and used with the pegboard lookup.",
+          "image_prompt": "A hand-sized pouch of a hundred small flat-topped iron pegs spilling onto a stone table."
+        },
+        {
+          "id": "itm_slate_tiles",
+          "name": "Slate Blueprint Tiles and Charcoal Sticks",
+          "status": "Active",
+          "first_cycle": 57,
+          "description": "Numbered slate tiles marked with charcoal, used as paper substitutes for blueprints, schedules, ledgers and wishlists.",
+          "image_prompt": "A stack of dark slate tiles scratched with charcoal diagrams beside a charcoal stick and a small pile of black dust."
+        }
+      ],
+      "weapons": [
+        {
+          "id": "itm_flint_tipped_spear",
+          "name": "Flint-Tipped Driftwood Spear",
+          "status": "Consumed (shaft reused for pickaxe, Cycle 12)",
+          "first_cycle": 2,
+          "description": "Knapped flint point lashed to a straight driftwood shaft with strips of clothing.",
+          "image_prompt": "A straight pale driftwood spear with a knapped flint point lashed on with cloth strips."
+        },
+        {
+          "id": "itm_iron_sword",
+          "pegboard_id": "T10",
+          "name": "Tempered Steel-Edged Iron Sword",
+          "status": "Active",
+          "first_cycle": 37,
+          "description": "Hot-forged iron sword with a carbon-hardened, quenched edge ground sharp on quartz and slate. Also used as a drawknife and plane for timber.",
+          "image_prompt": "A plain hand-forged sword with a dark tempered blade and a razor-bright ground edge, rawhide-wrapped grip."
+        },
+        {
+          "id": "itm_claw_glove_raptor",
+          "name": "Raptor-Claw Gauntlet (Original)",
+          "status": "Replaced (Cycle 45)",
+          "first_cycle": 20,
+          "description": "Single rawhide glove with three raptor foot claws braced over the knuckles with wet hide strips that shrank into a rigid forearm brace. Punched three inches into a dead trunk.",
+          "image_prompt": "A rawhide forearm brace with three large curved raptor claws mounted over the knuckles, shrunk hide lashings visible."
+        },
+        {
+          "id": "itm_iron_claw_gauntlets",
+          "pegboard_id": "T11",
+          "name": "Paired Iron Three-Clawed Combat Gauntlets with Knuckle Spike",
+          "status": "Active",
+          "first_cycle": 45,
+          "description": "Iron tines (Cycle 45) then a matching second gauntlet with articulated iron plates and finger rings, copper rivets and leather backing (Cycle 74). Right gauntlet also carries a four-inch tempered iron spike on the knuckles (Cycle 62); a spring-loaded firing mechanism was impossible.",
+          "image_prompt": "A pair of hand-forged articulated iron gauntlets with three curved iron claws each, copper rivets, leather backing and a four-inch iron spike jutting from the right knuckles."
+        },
+        {
+          "id": "itm_iron_tipped_spears",
+          "pegboard_id": "T12",
+          "name": "Iron-Tipped Spears (x3)",
+          "status": "Active",
+          "first_cycle": 56,
+          "description": "Three forged iron spearheads with pinned sockets on fire-hardened wooden shafts, carried by Dede, Helrune and Roseblossom.",
+          "image_prompt": "Three plain wooden spears with dark hand-forged iron leaf-shaped heads pinned to the shafts, leaning against a stone wall."
+        },
+        {
+          "id": "itm_stone_bolas",
+          "pegboard_id": "T13",
+          "name": "Three-Stone Hunting Bolas",
+          "status": "Active",
+          "first_cycle": 92,
+          "description": "Stones on cord that tangle goat legs; used in Cycles 92 and 121.",
+          "image_prompt": "Three smooth round stones tied to cords knotted at the centre, whirling in the air above a hunter."
+        },
+        {
+          "id": "itm_carved_baton",
+          "name": "Heavy Carved Baton (Dede)",
+          "status": "Active",
+          "first_cycle": 70,
+          "description": "Heavy carved hardwood baton used for sparring.",
+          "image_prompt": "A heavy carved hardwood baton with a knuckle-guarded grip, polished by hands."
+        },
+        {
+          "id": "itm_crossbow_bolts",
+          "name": "Heavy Crossbow Bolts",
+          "status": "Stored",
+          "first_cycle": 114,
+          "description": "Straight pine bolts shaved from branches for the heavy crossbow. No steel arrow tips or net-bolt attachments exist yet.",
+          "image_prompt": "A bundle of long thick pine bolts with plain whittled tips lashed together."
+        }
+      ],
+      "armor_and_apparel": [
+        {
+          "id": "itm_lizard_hide_wrap",
+          "name": "Lizard-Hide Wrap",
+          "status": "Consumed",
+          "first_cycle": 3,
+          "description": "Scraped lizard skin draped over the shoulders as first protection; runic marks etched in Cycle 8.",
+          "image_prompt": "A stiff scaly green-grey lizard hide draped over a stone ledge, scraped clean."
+        },
+        {
+          "id": "itm_goat_pelt_cloak",
+          "name": "Fresh Goat Pelt Cloak",
+          "status": "Consumed",
+          "first_cycle": 8,
+          "description": "Fur pelt from the first goat worn over the lizard wrap, later used as a sleeping blanket.",
+          "image_prompt": "A shaggy grey-brown goat pelt draped over a dwarf's shoulders, fur edges stiff with frost."
+        },
+        {
+          "id": "itm_winter_tunic",
+          "pegboard_id": "T15",
+          "name": "Heavy Rawhide Winter Tunic and Vest",
+          "status": "Active",
+          "first_cycle": 25,
+          "description": "Rawhide chest vest (Cycle 25) and heavy tunic (Cycle 26) stitched with sinew; later moss-lined for the whole crew.",
+          "image_prompt": "A thick stiff rawhide winter tunic stitched with sinew and lined with green moss, hanging on a stone peg."
+        },
+        {
+          "id": "itm_goat_hide_gloves",
+          "pegboard_id": "T15",
+          "name": "Goat-Hide Gloves",
+          "status": "Active",
+          "first_cycle": 36,
+          "description": "Rigid, loose first gloves (Cycle 36) tightened and tailored with thread (Cycle 42).",
+          "image_prompt": "A pair of snug stitched goat-hide gloves with visible sinew seams."
+        },
+        {
+          "id": "itm_iron_splint_mail",
+          "pegboard_id": "T16",
+          "name": "Four-Splint Iron Splint Mail Chest Guard",
+          "status": "Active",
+          "first_cycle": 56,
+          "description": "Four 15 cm iron splints lashed to rawhide backing with vine cordage, worn over the tunic for chest and rib protection with free arm movement.",
+          "image_prompt": "A chest guard of four overlapping hand-forged iron splints lashed to rawhide with vine cord, dull scratched metal."
+        },
+        {
+          "id": "itm_plated_brigandine_vest",
+          "pegboard_id": "T16",
+          "name": "Copper-Riveted Iron-Plate Brigandine Vest",
+          "status": "Active (fitted on Dede)",
+          "first_cycle": 62,
+          "description": "Curved iron plates quenched and riveted with bent copper wire over punched rawhide, built to stop armour-piercing thrusts. Slows the stride slightly.",
+          "image_prompt": "A brigandine vest of small curved iron plates riveted with copper onto rawhide, worn over a hide tunic."
+        },
+        {
+          "id": "itm_smoked_rawhide_poncho",
+          "name": "Smoked-Rawhide Windbreaking Ponchos and Moss-Lined Hooded Capes",
+          "status": "Active",
+          "first_cycle": 62,
+          "description": "Stiff smoked rawhide ponchos (Roseblossom, Cycle 62) and moss-lined ponchos for crew outings (Cycle 69).",
+          "image_prompt": "A stiff smoked-rawhide poncho with a hood and a moss lining peeking out at the edges."
+        },
+        {
+          "id": "itm_heat_boxes_iron",
+          "name": "Charcoal Heat Boxes (Iron and Clay-Quartz)",
+          "status": "Active",
+          "first_cycle": 92,
+          "description": "Two curved iron-plate boxes punched with air holes, lined with river clay and packed with slow-burning charcoal, clipped to the chest guard (Cycle 92). Four moulded clay-and-quartz heat boxes baked hard in Cycles 93-94. Heavy-duty copper heatpipe version remains only a blueprint.",
+          "image_prompt": "A small curved iron-plate heat box punched with air holes, clay-lined and glowing with charcoal embers, clipped to a chest guard."
+        },
+        {
+          "id": "itm_stored_ration_pack",
+          "name": "Crew Fibrous Packs and Bark Vessels",
+          "status": "Active",
+          "first_cycle": 54,
+          "description": "Fibrous packs carried up the winch by the guests, plus folded bark cups and goat-bladder and stomach canteens (Cycle 62).",
+          "image_prompt": "A tough fibre backpack beside folded bark cups and a dried goat-bladder canteen."
+        }
+      ],
+      "containers_and_misc": [
+        {
+          "id": "itm_tumbler_lock",
+          "pegboard_id": "K6",
+          "name": "Dwarf-Forged Iron-and-Copper Tumbler Lock",
+          "status": "Installed (workshop door)",
+          "first_cycle": 61,
+          "description": "Sliding tumblers, latch and outer casing in heated scrap iron and copper, installed on the plank door in Cycle 62.",
+          "image_prompt": "A chunky hand-forged lock plate in dark iron with copper inlays and sliding tumblers, bolted to a wooden door."
+        },
+        {
+          "id": "itm_trade_token",
+          "pegboard_id": "K7",
+          "name": "Twisted Iron-and-Copper Trade Token",
+          "status": "Active",
+          "first_cycle": 56,
+          "description": "Heated iron rod twisted around a warm copper chunk, fused billet struck with a dwarven block-rune. An earlier stone-iron-copper token with a tamper-fracturing internal mechanism failed completely (Cycle 55).",
+          "image_prompt": "A heavy rough coin-like token of twisted dark iron and oxidised copper with a deep dwarven block-rune stamped in the centre."
+        },
+        {
+          "id": "itm_blank_rune_stones",
+          "pegboard_id": "K7",
+          "name": "Blank Quartz Rune Stones",
+          "status": "Stored (inert)",
+          "first_cycle": 28,
+          "description": "Faceted milky quartz blanks, one geometric (Cycle 28). Chanting and carving (Cycles 28, 31, 33) produced no green light or energy.",
+          "image_prompt": "A faceted milky quartz rune stone with carved geometric grooves lying dull and inert on a workbench."
+        },
+        {
+          "id": "itm_clay_crucibles",
+          "name": "Clay-Quartz Crucibles (Unfired)",
+          "status": "Drying (Cycle 122)",
+          "first_cycle": 122,
+          "description": "Thick-walled pots with matching lids made from river clay kneaded with coarse crushed-quartz grit, drying in the wind for baking blister steel.",
+          "image_prompt": "Several thick-walled clay pots with lids gritty with crushed quartz, drying on a windy ledge."
+        },
+        {
+          "id": "itm_woven_bags_harness",
+          "name": "Woven Fibre Bags, Rope and Hauling Harness",
+          "status": "Active",
+          "first_cycle": 79,
+          "description": "Woven bags for rubble and the 200 kg stone ballast; cycad cordage and hauling harnesses.",
+          "image_prompt": "Coarse woven fibre bags bulging with stone rubble beside coiled cordage and a leather hauling harness."
+        },
+        {
+          "id": "itm_elevator_ballast",
+          "name": "200 kg Stone Counterweight Ballast",
+          "status": "Active",
+          "first_cycle": 79,
+          "description": "Woven bags of dense sedimentary rock balancing the elevator cabin.",
+          "image_prompt": "A heap of woven bags filled with grey sedimentary stone slabs hanging as a counterweight on a rope."
+        }
+      ]
+    },
+    "materials_and_resources": [
+      {
+        "id": "mat_hematite",
+        "pegboard_id": "M3",
+        "name": "Hematite and Iron Ore",
+        "category": "Ore",
+        "sources": ["Sea cave rear wall (Cycle 14)", "Lower slope iron vein (Cycles 27, 30, 43)", "Adit and corridor veins (Cycles 74, 77, 78)"],
+        "stock_notes": "60 kg staged Cycle 78 and charged into the furnace Cycle 101. Rich unbroken veins still in the walls.",
+        "image_prompt": "Dense purple-black and rust-red hematite chunks heaped on a stone floor, metallic sheen on broken faces."
+      },
+      {
+        "id": "mat_limonite",
+        "pegboard_id": "M3",
+        "name": "Limonite",
+        "category": "Ore (low grade)",
+        "sources": ["North-east granite ridge (Cycle 19)", "Lower slopes (Cycle 24)"],
+        "stock_notes": "Two fist-sized chunks carried; a third discarded.",
+        "image_prompt": "Fist-sized rust-orange limonite lumps with crumbly yellow-brown crusts."
+      },
+      {
+        "id": "mat_bauxite",
+        "pegboard_id": "M7",
+        "name": "Bauxite",
+        "category": "Stone and refractory",
+        "sources": ["Mountain face seams (Cycles 24, 90, 91, 104)", "Eastern fault"],
+        "stock_notes": "Used for heat-resistant furnace blocks and masonry; no aluminium smelting.",
+        "image_prompt": "Pale reddish-cream bauxite blocks with a gritty surface stacked as furnace masonry."
+      },
+      {
+        "id": "mat_quartz",
+        "pegboard_id": "M8",
+        "name": "Quartz",
+        "category": "Stone",
+        "sources": ["Coastal seams", "Mountain bands (kept as decoration)", "Eastern fault (4 kg, 15 kg)"],
+        "stock_notes": "Used for pick heads, furnace blocks, crucible grit, rune blanks.",
+        "image_prompt": "Milky-white quartz crystals and slabs, translucent edges, dust on a stone workbench."
+      },
+      {
+        "id": "mat_flint",
+        "pegboard_id": "M9",
+        "name": "Flint",
+        "category": "Stone",
+        "sources": ["Eroded gullies of the southern coast", "Mined pile at the cave (Cycle 13)"],
+        "image_prompt": "Dark grey flint nodules, some knapped into sharp flakes."
+      },
+      {
+        "id": "mat_slate_shale",
+        "pegboard_id": "M10",
+        "name": "Slate, Shale and Sedimentary Slabs",
+        "category": "Stone",
+        "sources": ["Coastal cliffs", "Mountain scree"],
+        "stock_notes": "Used for slabs (maps, ledgers, library), foyer roofing and stove tops.",
+        "image_prompt": "Flat grey-black slate and shale slabs in stacks, edges split cleanly."
+      },
+      {
+        "id": "mat_basalt",
+        "name": "Basalt and Ironstone",
+        "category": "Stone",
+        "sources": ["Mountain slopes"],
+        "stock_notes": "Basalt cobbles as hammers and a boulder as trip-hammer anvil bed; ironstone in barricades.",
+        "image_prompt": "Dense black basalt boulders and rusty ironstone blocks on a frosty ledge."
+      },
+      {
+        "id": "mat_clay",
+        "pegboard_id": "M11",
+        "name": "Clay and Mud Mortar",
+        "category": "Construction",
+        "sources": ["Frozen clay mound in the sea cave", "River clay", "Ledge hollows"],
+        "stock_notes": "Mixed with stone dust, quartz grit or bauxite dust for render (Cycles 37, 111, 121); flash-freezes in subzero weather.",
+        "image_prompt": "Wet grey river clay pressed between dry-stacked stones, finger marks in the smear."
+      },
+      {
+        "id": "mat_copper",
+        "pegboard_id": "M6",
+        "name": "Raw Copper and Copper Matte",
+        "category": "Metal",
+        "sources": ["Fist-sized raw lump brought by Dede (Cycle 54)", "Sulfide vein face in the adit (Cycle 87)"],
+        "stock_notes": "650 g copper matte smelted in Cycle 90, consumed in the rain basin (Cycle 116). Malachite vein on the coast untouched.",
+        "image_prompt": "A fist-sized lump of raw copper with green patina beside a heavy chunk of dull copper matte."
+      },
+      {
+        "id": "mat_lead_silver",
+        "name": "Lead-Silver Bullion and Native Silver",
+        "category": "Metal",
+        "sources": ["Galena and silver clusters in the adit vein (Cycle 87)"],
+        "stock_notes": "450 g bullion button from Cycle 90, consumed in the rain basin (Cycle 116). Lead is toxic; basin lined with clay.",
+        "image_prompt": "A heavy dull-grey button of lead-silver bullion beside tiny gleaming beads of native silver on rock."
+      },
+      {
+        "id": "mat_wrought_iron",
+        "pegboard_id": "M4",
+        "name": "Wrought Iron Blooms and Scrap Iron",
+        "category": "Metal",
+        "stock_notes": "Produced regularly in the central hearth and furnace; basis of tools, brackets, plates.",
+        "image_prompt": "A rough spongy bloom of wrought iron fresh from a furnace with slag clinging to it."
+      },
+      {
+        "id": "mat_steel",
+        "pegboard_id": "M5",
+        "name": "High-Carbon Steel Bloom",
+        "category": "Metal",
+        "stock_notes": "One bloom produced Cycle 102 from 60 kg of hematite; mostly used for the single steel pickaxe head.",
+        "image_prompt": "A massive spitting-hot steel bloom held in tongs, orange-white with a dark crust."
+      },
+      {
+        "id": "mat_charcoal",
+        "pegboard_id": "M2",
+        "name": "Charcoal",
+        "category": "Fuel",
+        "stock_notes": "Made in clamps (Cycles 98, 122), the entrance kilns (W3) and by overnight choked furnace (Cycle 39). Required for steel.",
+        "image_prompt": "Light brittle chunks of clean black charcoal with a faint blue sheen piled in a woven bag."
+      },
+      {
+        "id": "mat_timber",
+        "pegboard_id": "M1",
+        "name": "Conifer Timber, Hardwood Scrub and Firewood",
+        "category": "Wood",
+        "stock_notes": "Three ~40 kg logs (Cycle 79), two 2 m mortised beams (Cycle 103), softwood boughs (Cycle 121).",
+        "image_prompt": "Stacked conifer logs and squared beams with pale fresh cuts, plus bundles of scrub branches."
+      },
+      {
+        "id": "mat_driftwood_kelp",
+        "name": "Driftwood and Dried Kelp",
+        "category": "Fuel",
+        "stock_notes": "Early coastal fuel; kelp tinder and driftwood for the first fires (Cycles 2-16).",
+        "image_prompt": "Bleached driftwood sticks and tangled brown dried kelp piled against a quartz rock."
+      },
+      {
+        "id": "mat_hides_sinew_bone",
+        "pegboard_id": "M13",
+        "name": "Hides, Sinew, Bone and Claws",
+        "category": "Animal products",
+        "stock_notes": "Pegboard M13 hides, M14 sinew, M15 bones. Includes lizard hide, goat pelts, kid hide drying on the rack, hyrax skin, bone needles, goat-sinew thread and surplus horns, scraped bones and organs.",
+        "image_prompt": "Stretched tan goat hides, coils of sinew thread, scraped bones and curved horns laid out on a stone floor."
+      },
+      {
+        "id": "mat_meat_food",
+        "pegboard_id": "M16",
+        "name": "Meat, Jerky and Foraged Food",
+        "category": "Food",
+        "stock_notes": "Goat and hyrax meat (seared, smoked, jerky, cold-stored); fern tea, tubers, wild rice, crabs, bivalves, dried seaweed, scrub roots, cycad seeds, lichen, watercress. No salt (Cycle 32).",
+        "image_prompt": "Strips of dark smoked goat jerky and seared meat beside bowls of seeds, wild rice and dried seaweed."
+      },
+      {
+        "id": "mat_water",
+        "pegboard_id": "M18",
+        "name": "Water, Ice and Meltwater",
+        "category": "Water",
+        "stock_notes": "18 kg ice melted to drinking water (Cycles 90-91); sleet and rain catch; clay-lined alloy rain basin (Cycle 117). No plumbing.",
+        "image_prompt": "Clear meltwater pooling in a clay-lined basin beside chunks of blue-white ice."
+      },
+      {
+        "id": "mat_cordage",
+        "pegboard_id": "K1",
+        "name": "Braided Grass Cordage and Cable",
+        "category": "Component",
+        "stock_notes": "20 m braided from scrub grass (Cycle 43); cable and rope for the elevator; cycad cordage for hauling.",
+        "image_prompt": "A thick coil of braided pale grass cordage with fraying ends."
+      },
+      {
+        "id": "mat_pine_resin_fat",
+        "name": "Pine Resin and Animal Fat",
+        "category": "Sealant and lubricant",
+        "stock_notes": "Smeared on bellows seams (Cycle 98) and wooden gear pegs (Cycle 103).",
+        "image_prompt": "A bark bowl of sticky amber pine resin beside a lump of pale goat fat."
+      },
+      {
+        "id": "mat_moss_reeds",
+        "name": "Moss, Reeds and Grass",
+        "category": "Insulation and bedding",
+        "stock_notes": "Moss pallets and moss-lined clothing; reed fuel (Cycle 21); reed fibre intended for paper.",
+        "image_prompt": "A bundle of dry reeds and a soft mat of green moss laid on a hide bedroll."
+      }
+    ],
+    "blueprints_and_plans": [
+      {
+        "id": "bp_stone_periscope",
+        "name": "Stone Periscope with Two Stone Cone Mirrors",
+        "status": "Blocked",
+        "design_cycle": 13,
+        "description": "Straight vertical shaft with two polished stone cone mirrors reflecting a 360-degree surface panorama onto cave walls. Quartz test mirror failed for lack of abrasive and polish.",
+        "requirements_missing": ["fine abrasive sand or polishing paste", "polished reflective surface or glass or metal mirrors (K9)"],
+        "image_prompt": "A cutaway diagram of a vertical rock shaft with two cone-shaped mirrors and light rays projecting a circular panorama onto a cave wall."
+      },
+      {
+        "id": "bp_heat_pipe_heater",
+        "name": "Copper Heat-Pipe Armour Heater (C3 Code Plan)",
+        "status": "Blocked (substitute built)",
+        "design_cycle": 83,
+        "description": "Copper heatpipes, sintered powder wick, silver-welded heat spreaders and a steam-vacuum distilled-fluid chamber. Replaced by the simple clay-lined iron charcoal heat box. Dede pointed out no steel, silver welding or vacuum available. The 'C3' label clashed with Helrune's ID and was dropped (Cycle 84).",
+        "image_prompt": "Technical sketch of a chest-armour heater with thin copper pipes spreading across plate armour connected to a small sealed chamber, charcoal in a box at the centre."
+      },
+      {
+        "id": "bp_crossbow_turret",
+        "name": "Gimbal-Mounted Heavy Crossbow Turret",
+        "status": "Partially Built",
+        "design_cycle": 59,
+        "description": "Heavy crossbow on a swivel pin and U-bracket in a domed stone tower with stove-heat vents, linked by a secure door to the cave and to the foyer. See R4 and fac_gimbal_crossbow.",
+        "image_prompt": "Cutaway of a round stone tower with a heavy crossbow on a swiveling pin and tilt bracket under a glass-less domed ceiling with a panoramic slit."
+      },
+      {
+        "id": "bp_master_settlement_map",
+        "name": "Master Settlement Plan (Slate Table)",
+        "status": "Active planning",
+        "design_cycle": 49,
+        "description": "See planned_sectors under sub_malmskor_ledge. Preserves ore veins as decorative walls.",
+        "image_prompt": "A top-down charcoal map on slate showing a mountain stronghold with a banquet hall, kitchen, bending corridor, workshop dome and entry room."
+      },
+      {
+        "id": "bp_steam_pressure_network",
+        "name": "Steam-Powered Workshop Using the Mountain as a Pressure Vessel",
+        "status": "Planned (theory)",
+        "design_cycle": 65,
+        "description": "Seal natural fissures in the bedrock to drive machinery; layered advanced smelting furnaces; lodestone-and-copper heat theory.",
+        "requirements_missing": ["sealed pipework", "boiler metal", "copper wire (K2)", "lodestone (M12)"],
+        "image_prompt": "A cutaway mountain with glowing sealed fissures piped to rows of shafts and gears in a vast steam workshop."
+      },
+      {
+        "id": "bp_wire_drawing",
+        "name": "Copper Wire Drawing Line (Cast Iron Dies and Windmill Drive)",
+        "status": "Blocked",
+        "design_cycle": 93,
+        "description": "Decreasing-size cast iron dies, annealing heaters and wooden spindles driven by the windmill to pull copper wire (K2).",
+        "requirements_missing": ["liquid iron casting (blast furnace and crucible)", "more copper"],
+        "image_prompt": "Diagram of a row of shrinking round dies on a wooden bench with a gear-driven spindle winding thin copper wire."
+      },
+      {
+        "id": "bp_blast_furnace",
+        "name": "Blast Furnace and Reverberatory Chamber with Refractory Lining",
+        "status": "Planned",
+        "design_cycle": 118,
+        "description": "Continuous mechanical airflow from the windmill shaft into a proper blast furnace, plus a reverberatory chamber lined with dense refractory clay, to melt iron for cast parts.",
+        "image_prompt": "A tall stone blast furnace with a clay lining and a thick wooden air line from a windmill shaft, molten iron glowing at the tap hole."
+      },
+      {
+        "id": "bp_pulping_press",
+        "name": "Paper-Pulping Press",
+        "status": "Blocked",
+        "design_cycle": 57,
+        "description": "Press to smash river reeds into fibrous sheets. Needs fine mesh screens and lye (Cycle 75). K8 Fibrous Paper Sheets.",
+        "image_prompt": "A simple wooden pulping press with a screw lever over a tray of wet reed fibres and a drying rack of paper sheets."
+      },
+      {
+        "id": "bp_slate_pegboard_cabinet",
+        "name": "Wooden Cabinet Pegboard and Ring-Bound Tablets",
+        "status": "Blocked",
+        "design_cycle": 74,
+        "description": "Cabinet with doors enclosing a pegboard: ten-person rows on the left and ten wooden tablets joined by a ring binder on the right, each with a ten by ten peg grid and a title. Pegs forged; lumber missing.",
+        "image_prompt": "A tall wooden cabinet with open doors showing a pegboard grid on one half and ten ring-bound wooden tablets on the other."
+      },
+      {
+        "id": "bp_foot_pedal_grinding_wheel",
+        "name": "Foot-Pedal Stone Sharpening Wheel",
+        "status": "Planned",
+        "design_cycle": 27,
+        "description": "Pedal-driven stone wheel for honing blades; never built (hand grinding with quartz used instead).",
+        "image_prompt": "A foot-pedalled round grindstone on a wooden frame with a sparking blade held against its edge."
+      },
+      {
+        "id": "bp_stone_dome_roof",
+        "name": "Tower Dome and Grand Workshop Dome Arches",
+        "status": "Planned",
+        "design_cycle": 81,
+        "description": "Timber scaffolding, wedge stones and arch locking stones to close the dome. The tower dome was postponed in Cycle 121 as unsafe without scaffolding.",
+        "image_prompt": "A half-finished stone dome on timber scaffolding with wedge-shaped arch locking stones awaiting the central keystone."
+      },
+      {
+        "id": "bp_net_launcher_bell_alarm",
+        "name": "Weighted Net Launcher and Bell-Rigged Bait Alarm",
+        "status": "Blocked",
+        "design_cycle": 114,
+        "description": "Net-bolt attachments and a bait-and-bell alert at the mountain foot. Missing tension springs, netting, canisters, a bell and 50 m of cordage or wire.",
+        "image_prompt": "A bait pile at the foot of a cliff with a tripwire running up to a bell near a crossbow tower far above."
+      },
+      {
+        "id": "bp_mechanical_flying_birds",
+        "name": "Small Rune-Powered Flying Mechanical Birds",
+        "status": "Planned (research)",
+        "design_cycle": 10,
+        "description": "Miniature gear-and-tension-spring scouts for tracking and exploring. Runes are inert, so no power source exists.",
+        "image_prompt": "A tiny brass-and-iron mechanical bird with spring-wing joints and clock gears, perched on a gloved wrist."
+      },
+      {
+        "id": "bp_armory_manifest",
+        "name": "Armory and Warehouse Production Manifest",
+        "status": "Active planning",
+        "design_cycle": 105,
+        "description": "Quotas for ingots, steel axes, arrow tips, knives, daggers, claws, cams and axles, hammers, swords, full steel armour, rail-cart tracks and heater boxes. Counts not yet set.",
+        "image_prompt": "A slab listing rows of weapon and armour symbols with tally marks beside stacked iron ingots and rack frames."
+      },
+      {
+        "id": "bp_windmill_water_pipes",
+        "name": "Windmill-Driven Plumbing, Hot Water Pipes and Rock Crusher Concepts",
+        "status": "Planned (theory)",
+        "design_cycle": 89,
+        "description": "Clay pipes through the floor for hot water, an eastern pool line, steel springs, power generators, core drills and a steam lathe. Water pipeline failed to the cold (Cycle 91).",
+        "image_prompt": "A cutaway of a mountain home with warm-water clay pipes under the floors and a windmill driving a drill and crusher."
+      }
+    ],
+    "processes_and_recipes": [
+      {
+        "id": "proc_bloomery_steel",
+        "name": "Bloomery Steel Smelt (Verified Method, Cycles 98-103)",
+        "status": "Verified - achieved once",
+        "requested_in_cycle": 119,
+        "summary": "Forced-draft bloomery smelt in the quartz-bauxite furnace producing a carbon-rich steel bloom that is hammered into tool heads. This is the method that actually worked and should be reused until a better one exists.",
+        "inputs": ["about 60 kg crushed hematite", "clean charcoal from a turf clamp", "windmill-driven large hide bellows and camshaft", "quartz-bauxite furnace with widened throat", "greenwood tongs", "iron anvil or basalt hammer", "quench water", "pine leaf-spring handle and iron wedge"],
+        "steps": [
+          "Cut and stack conifer softwood and scrub boughs around a central flue; bury under turf, dirt and shale; ignite and smother-smoulder into clean light charcoal (clamp, Cycles 98 and 101).",
+          "Widen the furnace air throat and fit the large sealed goat-hide double bellows (fat and pine resin on seams) to a stone nozzle, connected to the windmill camshaft via a wooden lever (Cycle 98).",
+          "Smash hematite to pebble-sized pieces and layer it in the furnace under charcoal (60 kg charge, Cycle 101).",
+          "Engage the transmission so the windmill pumps the bellows; hold white heat (over 1,300C) for hours.",
+          "Break open the furnace base and drag the spitting bloom out with greenwood tongs; its outer crust has absorbed carbon and is steel (Cycle 102).",
+          "Reheat and hammer on the anvil, driving out slag and folding or drawing the bloom; split off a billet and shape a tapered head.",
+          "Punch the eye, quench the edge, then fit to a leaf-spring pine handle with an iron wedge through the crown (Cycle 103)."
+        ],
+        "limits": "Yield was one tool head per smelt effort because of reheating labour and bellows size. The trip-hammer (built Cycle 104) is expected to speed forging.",
+        "image_prompt": "A roaring white-hot furnace of pale blocks with a stitched hide bellows pumping, a dwarf dragging a glowing steel bloom out with long green-wood tongs, sparks everywhere."
+      },
+      {
+        "id": "proc_blister_steel",
+        "name": "Blister Steel in Clay Crucibles (Proposed Method, Cycle 119)",
+        "status": "Proposed - in preparation",
+        "summary": "Seal wrought iron in tight clay crucibles packed with crushed charcoal and bake under forced air for hours until the iron absorbs carbon, then hammer and fold. Entangled's Cycle 119 explanation; it contradicts the earlier bloom-based method only in framing, not in physical result.",
+        "inputs": ["wrought iron", "clay-quartz crucibles with lids (drying since Cycle 122)", "crushed charcoal (second clamp smouldering)", "forced-air furnace"],
+        "steps": ["Pack wrought iron bars and crushed charcoal into sealed crucibles.", "Bake in the windmill-blown furnace for hours.", "Cool, hammer and fold the blistered metal."],
+        "image_prompt": "A lidded clay crucible packed with black charcoal and iron bars glowing inside a white-hot furnace."
+      },
+      {
+        "id": "proc_charcoal_clamp",
+        "name": "Charcoal Clamp (Turf-and-Dirt Burn)",
+        "status": "Verified",
+        "summary": "Stack softwood and scrub around a flue, cover with turf and dirt, light from the core and leave to smoulder.",
+        "steps": ["Stack timber tight around a central flue.", "Blanket with turf, soil and crushed shale.", "Drop embers down the flue and seal the top.", "Wait; open when cool for brittle, light charcoal."],
+        "image_prompt": "A turf-covered mound with a smoke wisp from its top, a dwarf shovelling dirt over a stack of conifer logs."
+      },
+      {
+        "id": "proc_choked_furnace_charcoal",
+        "name": "Overnight Choked-Furnace Charcoal",
+        "status": "Verified (Cycle 39)",
+        "summary": "Pack the furnace with split wood, choke the vents with stone dust and wet mud so it smoulders all night, giving slow heat and charcoal by morning.",
+        "image_prompt": "A stone furnace packed with split wood and its vents plugged with mud, a dull red glow around the seals."
+      },
+      {
+        "id": "proc_dry_stack_masonry",
+        "name": "Dry-Stack Masonry with Clay Render",
+        "status": "Verified",
+        "summary": "Fit quartz, bauxite and shale blocks edge to edge without mortar; seal gaps with fine clay, stone dust, bauxite dust and quartz grit. Mud applied to frozen stone fails; render works when the stone is not frost-glazed.",
+        "image_prompt": "Hands packing wet grey clay into the gaps of a dry-stacked stone wall with a flat rock trowel."
+      },
+      {
+        "id": "proc_hide_curing",
+        "name": "Hide Scraping, Stretching and Curing",
+        "status": "Verified",
+        "summary": "Scrape fat and gristle off raw hide, stretch it tight on a rack or wall to dry in a draft, then cut and stitch with bone needle and sinew. Raw skin and guts left by the fire rot (Cycle 61 lesson).",
+        "image_prompt": "A goat hide stretched on a wooden rack with a dwarf scraping fat from the surface with a flint flake."
+      },
+      {
+        "id": "proc_ore_roasting",
+        "name": "Sulfide Ore Roasting and Silver-Lead-Copper Smelt",
+        "status": "Verified (Cycle 90)",
+        "summary": "Roast copper-lead-silver sulfide ores slowly to burn off the sulfur, smelt in the furnace placed by the doorway so yellow fumes blow away into the gale, skim dross and pour into ingots.",
+        "image_prompt": "A furnace placed at the open mouth of a tunnel with yellow fumes streaming into a gale and a gleaming metal button cooling on an anvil."
+      },
+      {
+        "id": "proc_hot_forging_quench",
+        "name": "Hot Forging, Carburising Hammering and Quench",
+        "status": "Verified",
+        "summary": "Heat iron to cherry or yellow red on charcoal, hammer thin to pack the grain, quench in bark water, grind the edge on quartz and slate.",
+        "image_prompt": "A glowing iron blade lifted from a furnace and plunged into a bark trough with a plume of steam."
+      },
+      {
+        "id": "proc_braided_cordage",
+        "name": "Grass Cordage Braiding",
+        "status": "Verified",
+        "summary": "Twist and braid scrub grass or cycad fibre into thick rope; 20 m for the first winch (Cycle 43).",
+        "image_prompt": "Hands braiding long scrub grass into a thick rope beside a stone doorway."
+      },
+      {
+        "id": "proc_rune_testing",
+        "name": "Rune Performance Testing Protocol",
+        "status": "Inconclusive",
+        "summary": "Carve runes, use the tool under real work, log wear on a shale ledger. Cycle 12 result: carve deeper next time. All later rune power attempts failed.",
+        "image_prompt": "A shale ledger slab with columns of tool wear notes and sketches of rune patterns beside a chipped quartz pickaxe head."
+      },
+      {
+        "id": "proc_wound_care",
+        "name": "Wound Cleaning and Dressing",
+        "status": "Verified (Cycle 49)",
+        "summary": "Boil melted ice water in a stone basin, sanitise cloth strips, flush wounds, cover with clean ledge mud and hot cloth wraps that harden into a cast.",
+        "image_prompt": "Strips of boiled cloth steaming on a hot stone beside a basin of water, a bandaged shoulder being dressed."
+      },
+      {
+        "id": "proc_elevator_use",
+        "name": "Elevator and Winch Operation",
+        "status": "Verified",
+        "summary": "Check cable tension and counterweight, enter the foyer cabin, release the brake or engage the windmill lantern gear; hand-cranking an empty cabin up is exhausting, so use windmill power. Haul meat, timber and ore in the cabin.",
+        "image_prompt": "A crew standing inside a walk-in timber cabin on a cliff ledge, a thick rope tight above them over a long drop."
+      }
+    ],
+    "failed_or_blocked_attempts": [
+      { "cycle": 3, "attempt": "Smelting furnace on the coast", "outcome": "Not built", "reason": "No heavy clay, gravel or bellows." },
+      { "cycle": 6, "attempt": "Digging the sea cave with a flint scraper and quartz hammer", "outcome": "Tiny alcove only", "reason": "Quartz and shale bedrock too hard." },
+      { "cycle": 13, "attempt": "Grinding a quartz cone mirror", "outcome": "Gouged milky surface", "reason": "No abrasive sand or polish." },
+      { "cycle": 24, "attempt": "Clay render on frozen stone", "outcome": "Slid off in the thaw", "reason": "Frozen mud melted and cracked." },
+      { "cycle": 25, "attempt": "Smelting iron on deadwood fire", "outcome": "Not hot enough", "reason": "Needed charcoal and a bellows." },
+      { "cycle": 28, "attempt": "Charging a quartz rune stone with green energy", "outcome": "Inert", "reason": "No magic in the world." },
+      { "cycle": 31, "attempt": "Rune stone carving and forging a lapidary toolset", "outcome": "Inert stone; flint points only", "reason": "No magic; no precision tools." },
+      { "cycle": 32, "attempt": "Salting meat and foot-pedal sharpening wheel", "outcome": "Smoke-dried; hand-ground", "reason": "No salt; no wheel built." },
+      { "cycle": 33, "attempt": "Ancestral chant to awaken world energy in a rune", "outcome": "Nothing happened", "reason": "No magic." },
+      { "cycle": 55, "attempt": "Trade token fusing stone, iron and copper with tamper-fracturing core", "outcome": "Quartz shattered, copper melted, iron would not bond", "reason": "Incompatible melting points." },
+      { "cycle": 61, "attempt": "Alcove for hidden elevator cabin with a quartz pick", "outcome": "Shallow dent", "reason": "Quartz head too soft; wounded shoulder." },
+      { "cycle": 62, "attempt": "Spring-loaded ultra-hard iron rod launcher in the gauntlet", "outcome": "Fixed spike instead", "reason": "Needs spring steel and precision machining." },
+      { "cycle": 73, "attempt": "Mechanical exoskeleton and pneumatic armour frames", "outcome": "Drawn only", "reason": "No power source, steel or precision tools." },
+      { "cycle": 74, "attempt": "Wooden pegboard cabinet and ring-bound tablets", "outcome": "Only the 100 pegs forged", "reason": "No flat lumber." },
+      { "cycle": 75, "attempt": "Paper-making press", "outcome": "Abandoned", "reason": "No mesh screens or lye." },
+      { "cycle": 81, "attempt": "Camouflage for Roseblossom and summit water scouting", "outcome": "Camouflage not made; scouting cancelled", "reason": "-12C storm." },
+      { "cycle": 83, "attempt": "Copper heatpipe armour heater", "outcome": "Simple iron heat box built instead", "reason": "No steel, silver, vacuum." },
+      { "cycle": 91, "attempt": "Clay pipe network from the eastern pool", "outcome": "Abandoned", "reason": "Clay flash-froze." },
+      { "cycle": 92, "attempt": "Rubber tree search", "outcome": "None found", "reason": "Only dry brush and stone." },
+      { "cycle": 93, "attempt": "Casting iron gears and wire dies", "outcome": "Wooden prototypes instead", "reason": "No liquid-iron furnace or crucible." },
+      { "cycle": 96, "attempt": "Mechanical cone drive for bellows speed", "outcome": "Fixed-ratio cam and lever instead", "reason": "Cannot carve a shifting cone from timber." },
+      { "cycle": 97, "attempt": "First large bellows", "outcome": "Delayed until fresh hide", "reason": "No airtight leather." },
+      { "cycle": 109, "attempt": "Foyer shape check", "outcome": "Western curve torn down and rebuilt", "reason": "Winch and elevator entry were outside it." },
+      { "cycle": 114, "attempt": "Net launcher and bell alarm", "outcome": "Not built", "reason": "No springs, netting, bell or long cordage." },
+      { "cycle": 116, "attempt": "Heavy crossbow test", "outcome": "Not tested", "reason": "No bow stave (prod); core drill also impossible." },
+      { "cycle": 117, "attempt": "Cast-iron gears, rolling mills, pipe rollers", "outcome": "Not built", "reason": "No blast furnace." },
+      { "cycle": 117, "attempt": "Dowsing for a geothermal hot spring and indoor bath", "outcome": "No warmth found", "reason": "Cold bone-dry granite and bauxite." },
+      { "cycle": 121, "attempt": "Closing the tower dome", "outcome": "Postponed", "reason": "No scaffolding or wedge stones." }
+    ],
+    "id_lookup_table": {
+      "note": "Player-defined in-world pegboard IDs with their use. The Master Index (Cycle 84) letters: C person, A Action, M Materials, K Components, T Tools, F Facilities, S Settlement Sectors.",
+      "characters": { "C0": "All Crew", "C1": "Entangled", "C2": "Dede", "C3": "Helrune", "C4": "Roseblossom" },
+      "actions": {
+        "A1": "Gather or Forage", "A2": "Hunt or Butcher", "A3": "Mine or Excavate", "A4": "Smelt or Kiln Fire", "A5": "Forge or Smith",
+        "A6": "Craft or Stitch", "A7": "Build", "A8": "Research", "A9": "Etch Runes", "A10": "Cook", "A11": "Maintain", "A12": "Train or Rest"
+      },
+      "materials": {
+        "M1": "Timber and Firewood", "M2": "Charcoal", "M3": "Raw Iron Ore", "M4": "Scrap Iron", "M5": "Steel", "M6": "Raw Copper",
+        "M7": "Bauxite", "M8": "Quartz", "M9": "Flint", "M10": "Slate", "M11": "Clay Mortar", "M12": "Lodestone", "M13": "Hides",
+        "M14": "Sinew", "M15": "Bones", "M16": "Meat", "M17": "Herbs", "M18": "Water"
+      },
+      "components": {
+        "K1": "Braided Cordage or Rope", "K2": "Fine Drawn Copper Wire", "K3": "Iron Brackets and Rivets", "K4": "Gearwork and Tension Springs",
+        "K5": "Wooden Drum, Axle and Handles", "K6": "Dwarf Forged Tumbler Lock", "K7": "Rune Stones and Trade Tokens", "K8": "Fibrous Paper Sheets",
+        "K9": "Mirrors and Molten Glass", "K10": "Tracks, Wheels and Pipes"
+      },
+      "defined_in_later_prompts": {
+        "T1": "Quartz Pickaxe", "T4": "Smith's Hammer", "G2": "Forged Axe Heads", "G5": "Steel Nails", "J1": "Iron Rake", "J7": "Mortar"
+      },
+      "used_in_prompts_but_not_defined": [
+        { "code": "T13 / T14", "context": "Cycle 92: craft bows and arrows and stone bolas", "inferred": "Bolas and bows or arrows; the previous database assigned T13 to bolas and baton and T14 to the heavy crossbow." },
+        { "code": "F3, F9", "context": "Cycle 98: forge pickaxes (F3) and etch (F9)", "inferred": "Forge area and a workshop or rune area; unconfirmed." },
+        { "code": "F4", "context": "Cycle 102: Dede maintains the exterior windmill", "inferred": "Windmill." },
+        { "code": "F5", "context": "Cycle 101: Entangled tends the forge", "inferred": "Forge or furnace." },
+        { "code": "F6", "context": "Cycles 84, 91, 103: elevator framing, cliff windmill build, elevator inspection", "inferred": "Elevator and cliff mechanical works." },
+        { "code": "F10", "context": "Cycle 101: everyone rests", "inferred": "Sleeping quarters." },
+        { "code": "W5, W6, W7", "context": "Cycles 78, 84, 124: elevator upgrade, door and foyer and elevator inspection, freezer check", "inferred": "W5 elevator, W6 entrance door and foyer, W7 freezer." },
+        { "code": "S4", "context": "Cycle 80: excavate sleeping quarters", "inferred": "Right-flank sleeping corridor." },
+        { "code": "R1", "context": "Cycle 90: draft windmill blueprints", "inferred": "Research subject reference for the windmill." }
+      ],
+      "database_assigned_facility_ids": {
+        "W1": "Cooking stove", "W2": "Central circular hearth furnace", "W3": "Entrance-wall charcoal kilns", "W4": "Quartz-bauxite furnace",
+        "W5_W6": "Elevator and winch", "W7": "Permafrost freezer", "W8_W11": "Abacus, library and pegboard", "W9": "Trip-hammer",
+        "W10": "Foyer", "R4": "Defence tower", "S4": "Right-flank corridor", "T5": "5 kg iron anvil",
+        "note": "Carried over from the earlier world_database.md and used here for continuity."
+      }
+    },
+    "key_events_timeline": [
+      { "cycle": 1, "date": "2026-10-06", "phase": "Noon", "event": "Entangled arrives on the southern cliffs and builds a corbelled stone bunker around an old windbreak with a wired horn." },
+      { "cycle": 2, "date": "2026-10-06", "phase": "Afternoon", "event": "First fire from flint, first spear; kills a predatory lizard and cures its hide." },
+      { "cycle": 4, "date": "2026-10-06", "phase": "Midnight", "event": "Night scouting north finds a timber road, two dead trolls and the sea-cave drift mine." },
+      { "cycle": 6, "date": "2026-10-07", "phase": "Morning", "event": "Attempt to dig the cave fails; dwarf realises iron tools are essential." },
+      { "cycle": 8, "date": "2026-10-07", "phase": "Afternoon", "event": "Kills first goat; pelt, sinew and meat acquired." },
+      { "cycle": 9, "date": "2026-10-07", "phase": "Evening", "event": "Bone needle made." },
+      { "cycle": 12, "date": "2026-10-08", "phase": "Morning", "event": "Shale slab windbreak door; runic quartz pickaxe made and tested; ledger note." },
+      { "cycle": 13, "date": "2026-10-08", "phase": "Noon", "event": "Stone ledger inventory and periscope sketch; quartz mirror grinding fails." },
+      { "cycle": 14, "date": "2026-10-08", "phase": "Afternoon", "event": "Hematite pocket found in the cave wall." },
+      { "cycle": 17, "date": "2026-10-09", "phase": "Pre-dawn", "event": "Decision to leave the cold coast for the Lone Mountain." },
+      { "cycle": 19, "date": "2026-10-09", "phase": "Noon", "event": "Floodplain crossing; four raptor claws; limonite chunks; crampons first appear." },
+      { "cycle": 20, "date": "2026-10-09", "phase": "Afternoon", "event": "Three-clawed glove crafted at the gravel bar camp." },
+      { "cycle": 22, "date": "2026-10-09", "phase": "Midnight", "event": "Climbs the zigzag gully and finds the bloomery ledge camp: Malmskor's birthplace." },
+      { "cycle": 24, "date": "2026-10-10", "phase": "Morning", "event": "Carves a path down the gully; plank door hung; clay render fails; hyrax killed." },
+      { "cycle": 25, "date": "2026-10-10", "phase": "Noon", "event": "Furnace, chimney and vents built; heated bench; hide vest." },
+      { "cycle": 30, "date": "2026-10-11", "phase": "Morning", "event": "5 kg iron anvil forged; 25 kg ore hauled by sled; food at zero." },
+      { "cycle": 33, "date": "2026-10-11", "phase": "Evening", "event": "Ancestral rune ritual fails; no magic." },
+      { "cycle": 37, "date": "2026-10-12", "phase": "Noon", "event": "Hot-forged sword and pick; stone-dust render; seamless plank door installed." },
+      { "cycle": 44, "date": "2026-10-13", "phase": "Afternoon", "event": "Iron brackets and axe forged; first winch tested with a 40 kg boulder; timber hauled." },
+      { "cycle": 45, "date": "2026-10-13", "phase": "Evening", "event": "Iron claws replace raptor claws; four guest beds built." },
+      { "cycle": 47, "date": "2026-10-14", "phase": "Pre-dawn", "event": "Permafrost walk-in freezer niche cut; 9 kg meat stored." },
+      { "cycle": 48, "date": "2026-10-14", "phase": "Morning", "event": "Masked elf ambush: Entangled wounded in shoulder and thigh; attacker flees east; abacus wall built." },
+      { "cycle": 49, "date": "2026-10-14", "phase": "Noon", "event": "Wound care; master settlement map slab; furnace converted into cooking stove." },
+      { "cycle": 53, "date": "2026-10-15", "phase": "Pre-dawn", "event": "Dede, Helrune and Roseblossom climb the winch rope and join Entangled." },
+      { "cycle": 54, "date": "2026-10-15", "phase": "Morning", "event": "Central hearth and charcoal furnaces begun; workshop rules carved; raw copper supplied." },
+      { "cycle": 56, "date": "2026-10-15", "phase": "Afternoon", "event": "Splint mail chest guard, three iron spears, trade token, boulder barricade." },
+      { "cycle": 57, "date": "2026-10-15", "phase": "Evening", "event": "Slate library and filing system begun." },
+      { "cycle": 61, "date": "2026-10-16", "phase": "Noon", "event": "Tumbler lock forged; raw-hide curing lesson." },
+      { "cycle": 62, "date": "2026-10-16", "phase": "Afternoon", "event": "Knuckle spike gauntlet and brigandine vest made; lock installed." },
+      { "cycle": 63, "date": "2026-10-16", "phase": "Evening", "event": "Settlement map updated with entry room, corridor and 200-seat banquet hall." },
+      { "cycle": 72, "date": "2026-10-18", "phase": "Morning", "event": "Ore veins marked as decoration; quartz-bauxite furnace and layered chimney built." },
+      { "cycle": 74, "date": "2026-10-18", "phase": "Afternoon", "event": "Second gauntlet finished; 100 iron ID pegs forged." },
+      { "cycle": 78, "date": "2026-10-19", "phase": "Morning", "event": "Winch raised to 2.5 m; 60 kg of hematite hauled out." },
+      { "cycle": 85, "date": "2026-10-20", "phase": "Noon", "event": "Settlement named Malmskor (Iron Ledge); elevator cabin hung on brackets." },
+      { "cycle": 86, "date": "2026-10-20", "phase": "Afternoon", "event": "First 50 m elevator drop test passes; hand-hauling too hard." },
+      { "cycle": 87, "date": "2026-10-20", "phase": "Evening", "event": "Copper and lead-silver vein found; silver beads seen." },
+      { "cycle": 90, "date": "2026-10-21", "phase": "Morning", "event": "450 g lead-silver bullion and 650 g copper matte smelted; ice pool found 40 m east." },
+      { "cycle": 91, "date": "2026-10-21", "phase": "Noon", "event": "Pipeline fails to the cold; windmill axle bolted to the cliff." },
+      { "cycle": 93, "date": "2026-10-21", "phase": "Evening", "event": "Four hide sails fitted; windmill spins." },
+      { "cycle": 98, "date": "2026-10-22", "phase": "Afternoon", "event": "Large sealed hide bellows connected to windmill camshaft; charcoal clamp lit." },
+      { "cycle": 101, "date": "2026-10-23", "phase": "Pre-dawn", "event": "Clamp opened; 60 kg hematite charged; windmill-blown smelt begins." },
+      { "cycle": 102, "date": "2026-10-23", "phase": "Morning", "event": "Steel bloom pulled from the furnace." },
+      { "cycle": 103, "date": "2026-10-23", "phase": "Noon", "event": "Steel pickaxe fitted; windmill drives elevator winch and bellows through gears." },
+      { "cycle": 104, "date": "2026-10-23", "phase": "Afternoon", "event": "Windmill trip-hammer built and tested." },
+      { "cycle": 108, "date": "2026-10-24", "phase": "Morning", "event": "Slanted-roof foyer built." },
+      { "cycle": 109, "date": "2026-10-24", "phase": "Noon", "event": "Foyer rebuilt to enclose the winch and elevator entry." },
+      { "cycle": 110, "date": "2026-10-24", "phase": "Afternoon", "event": "Defence tower foundation ring laid." },
+      { "cycle": 111, "date": "2026-10-24", "phase": "Evening", "event": "Foyer sealed with mortar; crossbow nut, sear and bracket forged." },
+      { "cycle": 112, "date": "2026-10-24", "phase": "Midnight", "event": "Magic-awakening dream has no real effect." },
+      { "cycle": 116, "date": "2026-10-25", "phase": "Afternoon", "event": "Rain basin forged under the trip-hammer; crossbow found to lack a prod." },
+      { "cycle": 119, "date": "2026-10-26", "phase": "Pre-dawn", "event": "Steel-making method reviewed; blister-steel crucible process proposed." },
+      { "cycle": 121, "date": "2026-10-26", "phase": "Noon", "event": "Tower interior rendered; dome postponed; crew hunts goat kid and gathers softwood." },
+      { "cycle": 122, "date": "2026-10-26", "phase": "Afternoon", "event": "Second charcoal clamp lit; clay crucibles moulded." },
+      { "cycle": 123, "date": "2026-10-26", "phase": "Evening", "event": "Ledger inspection wrongly records built fixtures as unbuilt." },
+      { "cycle": 124, "date": "2026-10-26", "phase": "Midnight", "event": "Ledger corrected; lock, elevator and freezer confirmed; catfolk hunter seeking Ryu arrives." }
+    ],
+    "continuity_flags": [
+      { "id": "cf_01", "cycles": [1], "type": "Spontaneous Manifestation", "summary": "Wired wooden horn and microphone present in the original windbreak.", "guidance": "Treat as pre-existing curiosity; do not build on it unless a later cycle explains it." },
+      { "id": "cf_02", "cycles": [4], "type": "Spontaneous Manifestation", "summary": "Pre-excavated drift mine, woven fish trap and frozen clay mound found in the sea cave.", "guidance": "Both abandoned; low impact." },
+      { "id": "cf_03", "cycles": [19, 21], "type": "Retroactive Inventory", "summary": "Scrap-iron crampons appear without being crafted.", "guidance": "Keep as canon equipment; list in inventory." },
+      { "id": "cf_04", "cycles": [22], "type": "Spontaneous Manifestation", "summary": "Established bloomery camp with bauxite-ironstone windbreaks found on the ledge.", "guidance": "Canon: the ledge camp predates Entangled; do not make it the player's own handiwork." },
+      { "id": "cf_05", "cycles": [26], "type": "Spontaneous Manifestation", "summary": "A sealed kiln with charcoal and a hide bellows appear in Cycle 26 before being built.", "guidance": "Assume a small clay kiln and a crude bellows exist; real kilns are W3 (Cycle 54)." },
+      { "id": "cf_06", "cycles": [37, 44, 61], "type": "Equipment Degradation", "summary": "The 5 kg iron anvil is repeatedly described as a boulder, stone bench or basalt.", "guidance": "Iron anvil is canon; the trip-hammer anvil bed is a separate basalt boulder." },
+      { "id": "cf_07", "cycles": [44], "type": "Scale Inconsistency", "summary": "A 20 m grass cord is used to winch over and down a 50 m cliff.", "guidance": "Cables and rope later described as thick braided cables; assume more cordage was made." },
+      { "id": "cf_08", "cycles": [51, 53, 58], "type": "Character Detail Conflict", "summary": "Roseblossom specified as a male halfling in prompts but written as female from Cycle 58.", "guidance": "Current usage is female; keep until confirmed otherwise." },
+      { "id": "cf_09", "cycles": [53], "type": "Placement Drift", "summary": "Warning sign was to be at the start of the path below but is propped at the ledge.", "guidance": "Canon: sign on the ledge." },
+      { "id": "cf_10", "cycles": [62, 74], "type": "Premature Item", "summary": "Copper wire rivets and 'melted copper ore' appear before wire drawing or the copper vein discovery.", "guidance": "Allowed from the single raw copper lump; no wire-drawing yet." },
+      { "id": "cf_11", "cycles": [83], "type": "Dialogue Contradiction", "summary": "Dede says there is no copper though a lump was supplied; and the 'C3' label clashed with Helrune's ID.", "guidance": "Copper exists in small quantity; C3 is Helrune only." },
+      { "id": "cf_12", "cycles": [92, 93], "type": "Count Mismatch", "summary": "Four iron-and-charcoal heat boxes requested; only two iron boxes forged in Cycle 92, four clay-quartz boxes moulded in Cycles 93-94.", "guidance": "Canon count: 2 iron plus 4 clay-quartz." },
+      { "id": "cf_13", "cycles": [98, 122], "type": "Facility Amnesia and Regression", "summary": "Open turf clamps used for charcoal despite the W3 indoor charcoal kilns.", "guidance": "Both exist; clamps are used for bulk steel-grade charcoal." },
+      { "id": "cf_14", "cycles": [102, 119, 122], "type": "Method Contradiction", "summary": "Steel was made by a windmill-blown bloomery smelt (Cycles 101-102), yet in Cycle 119 Entangled says steel needs blister work in crucibles.", "guidance": "Both methods are recorded: bloomery steel is the verified one; blister steel is the proposed second method (see processes_and_recipes)." },
+      { "id": "cf_15", "cycles": [102, 104], "type": "Quantity Shortfall", "summary": "Four steel pickaxes ordered; only one steel head made. Three more are outstanding.", "guidance": "Track as open job." },
+      { "id": "cf_16", "cycles": [123, 124], "type": "False Ledger", "summary": "Cycle 123 wrongly logged the elevator, lock and freezer as unbuilt; corrected in Cycle 124.", "guidance": "These fixtures are built and operational." },
+      { "id": "cf_17", "cycles": [116, 121], "type": "Incomplete Build Admitted", "summary": "The crossbow was said to be built but had no prod; the tower dome is also unbuilt.", "guidance": "Status stays Partially Built / Under Construction." },
+      { "id": "cf_18", "cycles": [87, 80], "type": "Unverified Figure", "summary": "The earlier database quoted a 22.5 m corridor depth that the chronicle does not support.", "guidance": "Use incremental figures: 2 m alcove, +1.5 m at the vein face." },
+      { "id": "cf_19", "cycles": [83, 84, 124], "type": "Facility ID Ambiguity", "summary": "Prompt facility codes (F3-F10, W5-W7) are used without definitions.", "guidance": "See id_lookup_table.used_in_prompts_but_not_defined." }
+    ],
+    "open_threads": [
+      { "id": "ot_01", "thread": "Catfolk hunter sheltering in the outer foyer until dawn, looking for Ryu.", "source_cycle": 124 },
+      { "id": "ot_02", "thread": "Unidentified masked elf raider escaped east, wounded.", "source_cycle": 48 },
+      { "id": "ot_03", "thread": "Heavy-bolt shooter who killed a troll in the north remains unidentified.", "source_cycle": 4 },
+      { "id": "ot_04", "thread": "Three more steel pickaxes owed to Dede, Helrune, Roseblossom; two spare leaf-spring handles waiting.", "source_cycle": 102 },
+      { "id": "ot_05", "thread": "Forge a bow stave for the heavy crossbow, then mount and test it.", "source_cycle": 116 },
+      { "id": "ot_06", "thread": "Fire clay crucibles and run a blister-steel batch when the second charcoal clamp is ready.", "source_cycle": 122 },
+      { "id": "ot_07", "thread": "Finish defence tower: dome, upper deck, stairs, window, vents, link door to the cave.", "source_cycle": 121 },
+      { "id": "ot_08", "thread": "Crew requests: Helrune wants fresh pick heads, Dede wants a heavy inner door for the adit.", "source_cycle": 115 },
+      { "id": "ot_09", "thread": "Continue excavating the Grand Banquet Hall and Grand Workshop and the tunnel beneath the frozen pool.", "source_cycle": 119 },
+      { "id": "ot_10", "thread": "Summit has never been scouted for a large body of water.", "source_cycle": 81 },
+      { "id": "ot_11", "thread": "Build a blast furnace to enable cast iron gears, wire dies, rolling mills and pipes.", "source_cycle": 118 },
+      { "id": "ot_12", "thread": "Make a forged iron or steel smith's hammer; the basalt hammer stone is still used.", "source_cycle": 105 },
+      { "id": "ot_13", "thread": "Boots were a goal from Cycle 5 and were never made; no proper footwear is recorded.", "source_cycle": 12 }
+    ]
+  }
+}
